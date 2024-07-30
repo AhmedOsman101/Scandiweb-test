@@ -1,0 +1,19 @@
+{
+	"name": "othman/scandiweb-test",
+	"autoload": {
+		"psr-4": {
+			"App\\": "App/",
+			"App\\Controllers\\": "App/controllers/",
+			"App\\Database\\": "App/database/",
+			"App\\Http\\": "App/Http/",
+			"App\\Models\\": "App/models/"
+		}
+	},
+	"authors": [
+		{
+			"name": "AhmadOthman",
+			"email": "trollingosman101@outlook.com"
+		}
+	],
+	"require": {}
+}
