@@ -1,51 +1,51 @@
 body {
-	grid-template-areas: "header" "main" "hr" "footer";
-	grid-template-rows: auto 1fr auto auto;
+  grid-template-areas: "header" "main" "hr" "footer";
+  grid-template-rows: auto 1fr auto auto;
 }
 
 header {
-	grid-area: header;
+  grid-area: header;
 }
 
 main {
-	grid-area: main;
+  grid-area: main;
 }
 
 footer {
-	grid-area: footer;
+  grid-area: footer;
 }
 
 #footerHR {
-	grid-area: hr;
+  grid-area: hr;
 }
 
 label {
-	display: grid;
-	grid-template-areas: "label input";
-	grid-template-columns: 4rem 1fr;
-	align-items: center;
-	-moz-column-gap: 2rem;
-	column-gap: 2rem;
+  display: grid;
+  grid-template-areas: "label input";
+  grid-template-columns: 4rem 1fr;
+  align-items: center;
+  -moz-column-gap: 2rem;
+       column-gap: 2rem;
 }
 label span {
-	grid-area: label;
+  grid-area: label;
 }
 label input,
 label select {
-	grid-area: input;
+  grid-area: input;
 }
 
 /* Hide spinners in WebKit browsers (Chrome, Safari) */
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-	-webkit-appearance: none !important;
-	margin: 0 !important;
-	appearance: none !important;
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+  appearance: none !important;
 }
 
 /* Hide spinners in Firefox */
-input[type="number"] {
-	-webkit-appearance: textfield !important;
-	-moz-appearance: textfield !important;
-	appearance: textfield !important;
-} /*# sourceMappingURL=app.css.map */
+input[type=number] {
+  -webkit-appearance: textfield !important;
+     -moz-appearance: textfield !important;
+          appearance: textfield !important;
+}/*# sourceMappingURL=app.css.map */
