@@ -6,7 +6,8 @@
 			"App\\Controllers\\": "App/controllers/",
 			"App\\Database\\": "App/database/",
 			"App\\Models\\": "App/models/",
-			"App\\Router\\": "App/router/"
+			"App\\Router\\": "App/router/",
+			"App\\Traits\\": "App/traits/"
 		}
 	},
 	"authors": [
