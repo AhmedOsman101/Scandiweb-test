@@ -14,7 +14,7 @@
 
   <link
     rel="stylesheet"
-    href="../assets/css/app.css" />
+    href="../assets/sass/app.css" />
 
   <script
     defer
@@ -23,3 +23,5 @@
   <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
 
 </head>
+
+<?php include "nav.php" ?>

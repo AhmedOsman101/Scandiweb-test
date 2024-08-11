@@ -3,7 +3,6 @@ $title = $nav_title = "Add Product";
 
 include "partials/header.php";
 include "partials/body.php";
-include "partials/nav.php";
 ?>
 
 <main class="grid mt-8 px-3">

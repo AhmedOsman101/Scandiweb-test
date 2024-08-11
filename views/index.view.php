@@ -82,7 +82,6 @@ $products = json_decode(json_encode($products), false);
 
 include "partials/header.php";
 include "partials/body.php";
-include "partials/nav.php";
 ?>
 
 
