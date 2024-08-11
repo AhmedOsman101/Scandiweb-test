@@ -1,7 +1,7 @@
 <?php
 
 // init the router
-require_once PARENT_DIRECTORY . '/Router/router.php';
+require_once PARENT_DIRECTORY . '/routes/routes.php';
 
 /**
  * Load environment variables from .env file
