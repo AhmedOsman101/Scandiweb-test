@@ -1,7 +1,5 @@
 <?php
 
-const PARENT_DIRECTORY = dirname(__DIR__);
-
 // init the router
 require_once PARENT_DIRECTORY . '/Router/router.php';
 
