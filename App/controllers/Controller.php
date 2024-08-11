@@ -4,15 +4,28 @@ namespace App\Controllers;
 
 abstract class Controller
 {
-  public function index()
-  {
-  }
+  /**
+   * Retrieve all resources
+   */
+  public static function index() {}
 
-  public function create()
-  {
-  }
+  /**
+   * Display a form to create new resources
+   */
+  public static function create() {}
 
-  public function delete()
+  /**
+   * Create new resources
+   */
+  public static function store() {}
+
+  /**
+   * Delete resources
+   */
+  public static function delete() {}
+
+  protected static function view(string $view)
   {
+    return require_once PARENT_DIRECTORY . "/views/$view.view.php";
   }
 }

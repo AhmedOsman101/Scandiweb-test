@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\ProductController;
 use App\Router\Router;
 
 
@@ -7,18 +8,23 @@ use App\Router\Router;
 $routes = [
   "home" => [
     "uri" => "/",
-    "action" => ["ProductController", "index"],
+    "action" => [ProductController::class, "index"],
     "method" => "GET"
   ],
   "product.create" => [
     "uri" => "/add-product",
-    "action" => ["ProductController", "create"],
+    "action" => [ProductController::class, "create"],
     "method" => "GET"
   ],
   "product.store" => [
-    "uri" => "/add-product",
-    "action" => ["ProductController", "store"],
+    "uri" => "/store-product",
+    "action" => [ProductController::class, "store"],
     "method" => "POST"
+  ],
+  "product.delete" => [
+    "uri" => "/delete-product",
+    "action" => [ProductController::class, "delete"],
+    "method" => "DELETE"
   ],
 ];
 

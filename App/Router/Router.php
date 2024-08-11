@@ -11,8 +11,12 @@ class Router
     $this->routes = $routes;
   }
 
-  public static function watch($uri)
+  public function watch(string $uri, string $method)
   {
-    // code
+    foreach ($this->routes as $route) {
+      if ($route['uri'] === $uri && $route['method'] === $method) {
+        call_user_func($route['action']);
+      }
+    }
   }
 }
