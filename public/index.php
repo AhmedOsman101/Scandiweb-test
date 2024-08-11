@@ -9,4 +9,3 @@ require_once PARENT_DIRECTORY . '/vendor/autoload.php';
 
 // bootstrap the application
 require_once PARENT_DIRECTORY . "/bootstrap/bootstrap.php";
-
