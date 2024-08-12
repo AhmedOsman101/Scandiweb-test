@@ -7,7 +7,7 @@ use App\Router\Router;
 class Helpers
 {
 
-  protected static $routes;
+  protected static $router;
 
   public static function dd(...$data): void
   {
@@ -26,7 +26,7 @@ class Helpers
 
   public static function route(string $name): string|null
   {
-    return self::$routes[$name]['uri'] ?? null;
+    return static::$router->get_route($name);
   }
 
   public static function base_path($path = ''): string
@@ -34,8 +34,8 @@ class Helpers
     return PARENT_DIRECTORY . '/' . $path;
   }
 
-  public static function set_routes(Router $router): void
+  public static function set_router(Router $router): void
   {
-    static::$routes = $router->routes;
+    static::$router = $router;
   }
 }
