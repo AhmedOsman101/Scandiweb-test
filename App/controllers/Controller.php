@@ -24,7 +24,7 @@ abstract class Controller
   /**
    * Delete resources
    */
-  public static function delete() {}
+  public static function destroy() {}
 
   protected static function view(string $view, $data = [])
   {

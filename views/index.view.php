@@ -1,14 +1,14 @@
 <?php
 
 $title = "Products List";
-$nav_title = "Product List (" . count($products) . ")";
+$nav_title = "$title (" . count($products) . ")";
 
 include "partials/header.php";
 include "partials/body.php";
 ?>
 
 
-<main class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-5 mt-8">
+<main class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-7 mt-8 px-6">
 	<?php foreach ($products as $product): ?>
 		<div
 			class="border p-4 flex flex-col gap-3 bg-gray-800 items-center">

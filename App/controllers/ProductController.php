@@ -20,5 +20,5 @@ class ProductController extends Controller
     return self::view('add');
   }
 
-  public static function delete() {}
+  public static function destroy() {}
 }

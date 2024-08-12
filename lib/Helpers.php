@@ -2,8 +2,13 @@
 
 namespace Lib;
 
+use App\Router\Router;
+
 class Helpers
 {
+
+  protected static $routes;
+
   public static function dd(...$data): void
   {
     self::dump(...$data);
@@ -21,12 +26,16 @@ class Helpers
 
   public static function route(string $name): string|null
   {
-    $config = require self::base_path('config/config.php');
-    return $config['routes'][$name]['uri'] ?? null;
+    return self::$routes[$name]['uri'] ?? null;
   }
 
   public static function base_path($path = ''): string
   {
     return PARENT_DIRECTORY . '/' . $path;
+  }
+
+  public static function set_routes(Router $router): void
+  {
+    static::$routes = $router->routes;
   }
 }

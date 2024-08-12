@@ -1,17 +1,38 @@
 <?php
 
+use App\Controllers\ProductController;
 use App\Router\Router;
-
-// init routes array
-$routes = $config['routes'];
-
-
-// current URI
-$uri = parse_url($_SERVER['REQUEST_URI'])['path'];
-$request_method = $_SERVER['REQUEST_METHOD'];
+use Lib\Helpers;
 
 // create a new router instance
-$router = new Router($routes);
+$router = new Router();
+
+$router->get(
+  "/",
+  [ProductController::class, "index"],
+  "product.index"
+);
+
+$router->get(
+  "/add-product",
+  [ProductController::class, "create"],
+  "product.create"
+);
+
+$router->post(
+  "/product",
+  [ProductController::class, "store"],
+  "product.store"
+);
+
+$router->delete(
+  "/product",
+  [ProductController::class, "destroy"],
+  "product.destroy"
+);
+
+// register routes to the Helpers class
+Helpers::set_routes($router);
 
 // listen for routes
-$router->watch($uri, $request_method);
+$router->watch();
