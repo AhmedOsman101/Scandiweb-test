@@ -13,6 +13,7 @@ class Database
 
   protected function __construct()
   {
+    /*
     $dsn = Env::get('DB_CONNECTION') . ':';
 
     $dsn .=
@@ -29,6 +30,9 @@ class Database
       );
 
     $this->pdo($dsn);
+    */
+    
+    $this->pdo("sqlite:" . PARENT_DIRECTORY . "/database/database.sqlite");
   }
 
   public static function getInstance(): self
