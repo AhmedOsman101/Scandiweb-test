@@ -8,7 +8,8 @@
 			"App\\Controllers\\": "app/controllers/",
 			"App\\Models\\": "app/models/",
 			"App\\Router\\": "app/router/",
-			"App\\Traits\\": "app/traits/"
+			"App\\Traits\\": "app/traits/",
+			"Lib\\Http\\": "lib/http/"
 		}
 	},
 	"authors": [
