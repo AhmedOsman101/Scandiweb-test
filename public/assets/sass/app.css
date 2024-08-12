@@ -1,6 +1,7 @@
 body {
   grid-template-areas: "header" "main" "hr" "footer";
   grid-template-rows: auto 1fr auto auto;
+  min-height: 100dvh;
 }
 
 header {
