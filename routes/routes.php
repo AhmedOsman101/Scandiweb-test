@@ -8,28 +8,30 @@ use Lib\Helpers;
 $router = new Router();
 
 $router->get(
-  "/",
+  "/products",
   [ProductController::class, "index"],
   "product.index"
 );
 
-$router->get(
-  "/add-product",
-  [ProductController::class, "create"],
-  "product.create"
-);
-
 $router->post(
-  "/product",
+  "/products",
   [ProductController::class, "store"],
   "product.store"
 );
 
 $router->delete(
-  "/product",
+  "/products",
   [ProductController::class, "destroy"],
   "product.destroy"
 );
+
+$router->options('/products', function () {
+  header("Access-Control-Allow-Origin: *");
+  header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
+  header("Access-Control-Allow-Headers: Content-Type, Authorization");
+  http_response_code(204);
+  exit();
+});
 
 // register the router to the Helpers class
 Helpers::set_router($router);
