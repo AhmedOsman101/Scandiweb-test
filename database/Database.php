@@ -4,6 +4,7 @@ namespace Database;
 
 use Lib\Env;
 use PDO;
+use PDOStatement;
 
 class Database
 {
@@ -65,9 +66,10 @@ class Database
     return $statement->fetchAll();
   }
 
-  public function writeQuery($sql, $params = []): bool
+  public function writeQuery($sql, $params = []): bool|PDOStatement
   {
-    $statement = $this->pdo->prepare($sql);
-    return $statement->execute($params);
+    $statement = self::$pdo->prepare($sql);
+    $statement->execute($params);
+    return $statement;
   }
 }
