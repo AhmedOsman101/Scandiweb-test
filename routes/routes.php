@@ -31,8 +31,8 @@ $router->delete(
   "product.destroy"
 );
 
-// register routes to the Helpers class
-Helpers::set_routes($router);
+// register the router to the Helpers class
+Helpers::set_router($router);
 
 // listen for routes
 $router->watch();
