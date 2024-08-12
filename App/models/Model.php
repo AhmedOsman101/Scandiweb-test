@@ -22,7 +22,7 @@ abstract class Model
     return $result[0] ?? false;
   }
 
-  public static function where($column, $operator = '=', $value): object|bool
+  public static function where($column, $value, $operator = '='): object|bool
   {
     $sql = "SELECT * FROM " . static::table() . " WHERE $column $operator = ?";
 
