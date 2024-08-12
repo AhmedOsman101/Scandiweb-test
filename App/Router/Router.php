@@ -2,8 +2,8 @@
 
 namespace App\Router;
 
-use Lib\Helpers;
-use Lib\Http;
+use Lib\Http\Http;
+use Lib\Http\Response;
 
 /**
  * The Router class is responsible for managing the application's routing table and handling incoming requests.
@@ -110,6 +110,19 @@ class Router
   }
 
   /**
+   * Adds a new OPTIONS route to the application's routing table.
+   *
+   * @param string $uri The URI pattern for the route.
+   * @param mixed $action The callback function or action to be executed when the route is matched.
+   * @param string|null $name An optional name for the route, which can be used to retrieve the route's URI later.
+   * @return void
+   */
+  public function options(string $uri, mixed $action, string $name = null): void
+  {
+    $this->add("OPTIONS", $uri, $action, $name);
+  }
+
+  /**
    * Handles the routing logic for the application.
    *
    * This method is responsible for extracting the current URI and request method,
@@ -148,15 +161,18 @@ class Router
   }
 
   /**
-   * Aborts the current request by setting the HTTP response code and rendering an error view.
+   * Aborts the current request by setting the HTTP response code.
    *
    * @param int $status_code The HTTP status code to use for the response. Defaults to 404 Not Found.
    * @return void
    */
-  public function abort(int $status_code = Http::HTTP_NOT_FOUND): void
+  public function abort(int $status_code = Http::NOT_FOUND): void
   {
-    http_response_code($status_code);
-    require Helpers::base_path("views/errors/$status_code.php");
+    echo Response::Json(
+      status_code: $status_code,
+      status: Http::STATUS_MESSAGES[$status_code],
+    );
+
     exit;
   }
 }
