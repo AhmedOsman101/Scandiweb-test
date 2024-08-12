@@ -24,8 +24,9 @@ abstract class Controller
    */
   public static function delete() {}
 
-  protected static function view(string $view)
+  protected static function view(string $view, $data = [])
   {
+    if (count($data)) extract($data);
     return require_once PARENT_DIRECTORY . "/views/$view.view.php";
   }
 }

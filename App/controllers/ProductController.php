@@ -2,18 +2,23 @@
 
 namespace App\Controllers;
 
+use App\Models\Product;
+
 class ProductController extends Controller
 {
-  public function index()
+  public static function index()
   {
-    return require_once PARENT_DIRECTORY . '/views/index.view.php';
+    $products = Product::all();
+
+    return self::view('index', [
+      'products' => $products
+    ]);
   }
 
-  public function create()
+  public static function create()
   {
+    return self::view('add');
   }
 
-  public function delete()
-  {
-  }
+  public static function delete() {}
 }

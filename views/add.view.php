@@ -1,4 +1,7 @@
 <?php
+
+use App\Helpers;
+
 $title = $nav_title = "Add Product";
 
 include "partials/header.php";
@@ -20,7 +23,7 @@ include "partials/body.php";
 				}"
 		class="flex flex-col gap-8 px-5"
 		id="product_form"
-		action="index.html"
+		action="<?= Helpers::route('product.store') ?>"
 		method="post">
 		<label
 			for="sku"
