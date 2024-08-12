@@ -24,4 +24,4 @@
 
 </head>
 
-<?php include "nav.php" ?>
+<?php isset($error) ? null : include "nav.php" ?>
