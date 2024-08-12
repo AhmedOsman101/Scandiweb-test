@@ -1,6 +1,6 @@
 <?php
 
-use App\Helpers;
+use Lib\Helpers;
 
 $title = $nav_title = "Add Product";
 
