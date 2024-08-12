@@ -14,7 +14,7 @@
 
   <link
     rel="stylesheet"
-    href="../assets/sass/app.css" />
+    href="/assets/sass/app.css" />
 
   <script
     defer

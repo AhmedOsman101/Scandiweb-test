@@ -1,12 +1,13 @@
 <?php
 
 use Lib\Env;
+use Lib\Helpers;
 
 // load environment variables on app start
-Env::load(PARENT_DIRECTORY . '/.env');
+Env::load(Helpers::base_path(".env"));
 
 // load app config
-$config = require_once PARENT_DIRECTORY . '/config/config.php';
+$config = require_once Helpers::base_path("config/config.php");
 
 // init the router
-require_once PARENT_DIRECTORY . '/routes/routes.php';
+require_once Helpers::base_path("routes/routes.php");

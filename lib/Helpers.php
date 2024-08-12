@@ -21,7 +21,12 @@ class Helpers
 
   public static function route(string $name): string|null
   {
-    $config = require PARENT_DIRECTORY . '/config/config.php';
+    $config = require self::base_path('config/config.php');
     return $config['routes'][$name]['uri'] ?? null;
+  }
+
+  public static function base_path($path = ''): string
+  {
+    return PARENT_DIRECTORY . '/' . $path;
   }
 }

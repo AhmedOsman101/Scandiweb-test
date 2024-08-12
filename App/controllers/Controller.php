@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use Lib\Helpers;
+
 abstract class Controller
 {
   /**
@@ -27,6 +29,6 @@ abstract class Controller
   protected static function view(string $view, $data = [])
   {
     if (count($data)) extract($data);
-    return require_once PARENT_DIRECTORY . "/views/$view.view.php";
+    return require_once Helpers::base_path("views/$view.view.php");
   }
 }
