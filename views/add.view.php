@@ -40,7 +40,6 @@ use Lib\Helpers;
       </div>
     </nav>
   </header>
-  <hr />
 
   <!-- Main Content Area -->
   <main class="grid mt-8 px-3">
@@ -96,7 +95,7 @@ use Lib\Helpers;
       </fieldset>
 
       <!-- DVD Inputs -->
-      <fieldset x-show="Type === 'DVD'" x-transition.opacity.duration.500ms id="DVD" class="space-y-5 flex flex-col">
+      <fieldset x-show="Type === 'DVD'" id="DVD" class="space-y-5 flex flex-col">
         <label for="size">
           <span>Size</span>
 
@@ -117,7 +116,7 @@ use Lib\Helpers;
       </fieldset>
 
       <!-- BOOK Inputs -->
-      <fieldset x-show="Type === 'Book'" x-transition.opacity.duration.500ms id="Book" class="space-y-5 flex flex-col">
+      <fieldset x-show="Type === 'Book'" id="Book" class="space-y-5 flex flex-col">
         <label for="weight">
           <span>Weight</span>
 
@@ -138,8 +137,10 @@ use Lib\Helpers;
       </fieldset>
 
       <!-- FURNITURE Inputs -->
-      <fieldset x-show="Type === 'Furniture'" x-transition.opacity.duration.500ms id="Furniture"
+      <fieldset x-show="Type === 'Furniture'" id="Furniture"
         class="space-y-5 flex flex-col">
+        <label class="font-semibold" for="Furniture">Dimensions:</label>
+
         <label for="height">
           <span>Height</span>
 
@@ -185,8 +186,7 @@ use Lib\Helpers;
   </main>
 
   <!-- Footer Area -->
-  <hr class="mt-8" />
-  <footer class="py-8 grid place-items-center">
+  <footer class="py-8 grid place-items-center mt-8">
     <p class="text-center font-semibold">
       Scandiweb Test Assignment &copy; 2024
     </p>

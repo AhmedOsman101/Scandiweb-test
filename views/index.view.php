@@ -46,7 +46,9 @@
       </div>
     </nav>
   </header>
-  <hr />
+
+
+
   <main class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-7 mt-8 px-6">
     <?php foreach ($products as $product): ?>
       <div
@@ -72,8 +74,7 @@
     <?php endforeach; ?>
 
   </main>
-  <hr class="mt-8" />
-  <footer class="py-8 grid place-items-center bg-red-500 sticky bottom-0">
+  <footer class="py-8 grid place-items-center mt-8">
     <p class="text-center font-semibold">
       Scandiweb Test Assignment &copy; 2024
     </p>
