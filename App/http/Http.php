@@ -16,16 +16,16 @@ class Http
   public const SERVICE_UNAVAILABLE = 503;
 
   public const STATUS_MESSAGES = [
-    self::OK                     => 'OK',
-    self::CREATED                => 'Created',
-    self::NO_CONTENT             => 'No Content',
-    self::BAD_REQUEST            => 'Bad Request',
-    self::UNAUTHORIZED           => 'Unauthorized',
-    self::FORBIDDEN              => 'Forbidden',
-    self::NOT_FOUND              => 'Resource Not Found',
-    self::METHOD_NOT_ALLOWED     => 'Method Not Allowed',
-    self::INTERNAL_SERVER_ERROR  => 'Internal Server Error',
-    self::SERVICE_UNAVAILABLE    => 'Service Unavailable',
+    static::OK                     => 'OK',
+    static::CREATED                => 'Created',
+    static::NO_CONTENT             => 'No Content',
+    static::BAD_REQUEST            => 'Bad Request',
+    static::UNAUTHORIZED           => 'Unauthorized',
+    static::FORBIDDEN              => 'Forbidden',
+    static::NOT_FOUND              => 'Resource Not Found',
+    static::METHOD_NOT_ALLOWED     => 'Method Not Allowed',
+    static::INTERNAL_SERVER_ERROR  => 'Internal Server Error',
+    static::SERVICE_UNAVAILABLE    => 'Service Unavailable',
   ];
 
   private static array $headers = [
@@ -38,10 +38,10 @@ class Http
 
   private static function getClient(): Client
   {
-    if (!isset(self::$client)) {
-      self::$client = Client::getInstance();
+    if (!isset(static::$client)) {
+      static::$client = Client::getInstance();
     }
-    return self::$client;
+    return static::$client;
   }
 
   public static function request(
@@ -51,22 +51,22 @@ class Http
     bool $return = true
   ): Response {
     $options = [
-      'headers' => self::$headers,
+      'headers' => static::$headers,
       'data' => $data,
       'return' => $return
     ];
 
-    return self::getClient()->execute($method, $url, $options);
+    return static::getClient()->execute($method, $url, $options);
   }
 
   public static function Get(string $url): Response
   {
-    return self::request('GET', $url);
+    return static::request('GET', $url);
   }
 
   public static function Post(string $url, array $data, bool $return = false): Response
   {
-    return self::request(
+    return static::request(
       'POST',
       $url,
       $data,
@@ -76,7 +76,7 @@ class Http
 
   public static function Put(string $url, array $data, bool $return = false): Response
   {
-    return self::request(
+    return static::request(
       'PUT',
       $url,
       $data,
@@ -86,7 +86,7 @@ class Http
 
   public static function Patch(string $url, array $data, bool $return = false): Response
   {
-    return self::request(
+    return static::request(
       'PATCH',
       $url,
       $data,
@@ -96,11 +96,11 @@ class Http
 
   public static function Delete(string $url): Response
   {
-    return self::request('DELETE', $url, return: false);
+    return static::request('DELETE', $url, return: false);
   }
 
   public static function setHeaders(array $headers): void
   {
-    self::$headers = array_merge(self::$headers, $headers);
+    static::$headers = array_merge(static::$headers, $headers);
   }
 }

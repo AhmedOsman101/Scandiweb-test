@@ -13,14 +13,14 @@ abstract class Model
   public static function all(): array
   {
     $sql = "SELECT * FROM " . static::TABLE;
-    return self::DB()->readQuery($sql);
+    return static::DB()->readQuery($sql);
   }
 
   public static function find($id): object|bool
   {
     $sql = "SELECT * FROM " . static::TABLE . " WHERE id = :id";
 
-    $result = self::DB()->readQuery($sql, compact($id));
+    $result = static::DB()->readQuery($sql, compact($id));
     return $result[0] ?? false;
   }
 
@@ -28,7 +28,7 @@ abstract class Model
   {
     $sql = "SELECT * FROM " . static::TABLE . " WHERE $column $operator = ?";
 
-    $result = self::DB()->readQuery($sql, [$value]);
+    $result = static::DB()->readQuery($sql, [$value]);
     return $result ?? false;
   }
 
@@ -39,7 +39,7 @@ abstract class Model
 
     $sql = "INSERT INTO " . static::TABLE . " ($columns) VALUES ($values)";
 
-    return self::DB()->writeQuery($sql, $data);
+    return static::DB()->writeQuery($sql, $data);
   }
 
   public static function destroy(array $ids)
@@ -50,11 +50,11 @@ abstract class Model
     $sql .= implode(", ", $ids);
     $sql .= ")";
 
-    return self::DB()->writeQuery($sql);
+    return static::DB()->writeQuery($sql);
   }
 
   private static function DB(): Database
   {
-    return self::$db ?? self::$db = Database::getInstance();
+    return static::$db ?? static::$db = Database::getInstance();
   }
 }

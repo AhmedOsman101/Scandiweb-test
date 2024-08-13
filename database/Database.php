@@ -35,17 +35,17 @@ class Database
 
   public static function getInstance(): self
   {
-    if (!isset(self::$instance)) {
-      self::$instance = new self();
+    if (!isset(static::$instance)) {
+      static::$instance = new static();
     }
 
-    return self::$instance;
+    return static::$instance;
   }
 
   protected static function pdo(string $dsn): PDO
   {
-    if (!isset(self::$pdo)) {
-      self::$pdo = new PDO(
+    if (!isset(static::$pdo)) {
+      static::$pdo = new PDO(
         $dsn,
         options: [
           PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
@@ -55,12 +55,12 @@ class Database
       );
     }
 
-    return self::$pdo;
+    return static::$pdo;
   }
 
   public function readQuery($sql, $params = [])
   {
-    $statement = self::$pdo->prepare($sql);
+    $statement = static::$pdo->prepare($sql);
     $statement->execute($params);
 
     return $statement->fetchAll();
@@ -68,7 +68,7 @@ class Database
 
   public function writeQuery($sql, $params = []): bool|PDOStatement
   {
-    $statement = self::$pdo->prepare($sql);
+    $statement = static::$pdo->prepare($sql);
     $statement->execute($params);
     return $statement;
   }
