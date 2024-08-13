@@ -3,10 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\Product;
-use App\Http\Http;
 use Lib\Helpers;
 use Lib\Interfaces\Controller;
-use App\Http\Response;
 use PDOException;
 
 class ProductController extends Controller
@@ -37,26 +35,13 @@ class ProductController extends Controller
 
       if ($query->rowCount() === 0) {
         // not found
-
-        // echo Response::Json(
-        //   status_code: Http::NOT_FOUND,
-        //   status: Http::STATUS_MESSAGES[Http::NOT_FOUND],
-        // );
-        // exit;
-
       }
 
       // redirect on success
       Helpers::redirect("product.index");
-
-
     } catch (PDOException $error) {
+      // bad request
       Helpers::dd($error->getMessage());
-      // echo Response::Json(
-      //   status_code: Http::BAD_REQUEST,
-      //   status: Http::STATUS_MESSAGES[Http::BAD_REQUEST],
-      //   errors: [$error->getMessage()]
-      // );
     }
   }
 }
