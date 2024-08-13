@@ -1,6 +1,7 @@
 body {
+  display: grid !important;
   grid-template-areas: "header" "main" "hr" "footer";
-  grid-template-rows: auto 1fr auto auto;
+  grid-template-rows: 100px 1fr 1px 100px;
   min-height: 100dvh;
 }
 
@@ -9,11 +10,13 @@ header {
 }
 
 main {
-  grid-area: main;
+  grid-area: main !important;
 }
 
 footer {
   grid-area: footer;
+  position: sticky;
+  bottom: 0;
 }
 
 #footerHR {

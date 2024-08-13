@@ -13,17 +13,19 @@
     name="viewport"
     content="width=device-width, initial-scale=1" />
 
-  <link
-    rel="stylesheet"
-    href="/assets/sass/main.css" />
 
   <script
     defer
     src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
   <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+
+  <link
+    rel="stylesheet"
+    href="/assets/sass/main.css" />
 </head>
 
-<body class="bg-gray-950 min-h-dvh text-white">
+<body class="bg-gray-950 text-white">
   <header class="py-6">
     <nav class="flex justify-between px-7">
       <h1 class="font-bold text-2xl">
@@ -71,7 +73,7 @@
 
   </main>
   <hr class="mt-8" />
-  <footer class="py-8 grid place-items-center">
+  <footer class="py-8 grid place-items-center bg-red-500 sticky bottom-0">
     <p class="text-center font-semibold">
       Scandiweb Test Assignment &copy; 2024
     </p>
