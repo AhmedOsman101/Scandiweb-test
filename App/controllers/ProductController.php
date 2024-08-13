@@ -3,10 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\Product;
-use Lib\Http\Http;
-use Lib\Http\Response;
+use App\Http\Http;
+use Lib\Interfaces\Controller;
+use App\Http\Response;
 use PDOException;
-use App\Controllers\Controller;
 
 class ProductController implements Controller
 {

@@ -2,8 +2,8 @@
 
 namespace App\Router;
 
-use Lib\Http\Http;
-use Lib\Http\Response;
+use App\Http\Http;
+use App\Http\Response;
 
 /**
  * The Router class is responsible for managing the application's routing table and handling incoming requests.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib\Http;
+namespace App\Http;
 
 interface HttpResponseInterface
 {
