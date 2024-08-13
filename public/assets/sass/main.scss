@@ -23,7 +23,7 @@ footer {
   border-top: 1px solid white;
 }
 
-label {
+label:not(.card) {
   display: grid;
 
   grid-template-areas: "label input";
@@ -43,6 +43,11 @@ label {
   select {
     grid-area: input;
   }
+}
+
+.card {
+  align-self: normal;
+  height: fit-content;
 }
 
 /* Hide spinners in WebKit browsers (Chrome, Safari) */

@@ -19,7 +19,7 @@ footer {
   border-top: 1px solid white;
 }
 
-label {
+label:not(.card) {
   display: grid;
   grid-template-areas: "label input";
   grid-template-columns: 4rem 1fr;
@@ -27,13 +27,19 @@ label {
   -moz-column-gap: 2rem;
        column-gap: 2rem;
 }
-label > span {
+label:not(.card) > span {
   font-weight: 600 !important;
   grid-area: label;
 }
-label input,
-label select {
+label:not(.card) input,
+label:not(.card) select {
   grid-area: input;
+}
+
+.card {
+  align-self: normal;
+  height: -moz-fit-content;
+  height: fit-content;
 }
 
 /* Hide spinners in WebKit browsers (Chrome, Safari) */
