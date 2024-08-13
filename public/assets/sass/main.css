@@ -1,12 +1,13 @@
 body {
   display: grid !important;
-  grid-template-areas: "header" "main" "hr" "footer";
-  grid-template-rows: 100px 1fr 1px 100px;
+  grid-template-areas: "header" "main" "footer";
+  grid-template-rows: auto 1fr auto;
   min-height: 100dvh;
 }
 
 header {
   grid-area: header;
+  border-bottom: 1px solid white;
 }
 
 main {
@@ -15,12 +16,7 @@ main {
 
 footer {
   grid-area: footer;
-  position: sticky;
-  bottom: 0;
-}
-
-#footerHR {
-  grid-area: hr;
+  border-top: 1px solid white;
 }
 
 label {
@@ -31,7 +27,8 @@ label {
   -moz-column-gap: 2rem;
        column-gap: 2rem;
 }
-label span {
+label > span {
+  font-weight: 600 !important;
   grid-area: label;
 }
 label input,
