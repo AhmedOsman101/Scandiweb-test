@@ -16,16 +16,16 @@ class Http
   public const SERVICE_UNAVAILABLE = 503;
 
   public const STATUS_MESSAGES = [
-    static::OK                     => 'OK',
-    static::CREATED                => 'Created',
-    static::NO_CONTENT             => 'No Content',
-    static::BAD_REQUEST            => 'Bad Request',
-    static::UNAUTHORIZED           => 'Unauthorized',
-    static::FORBIDDEN              => 'Forbidden',
-    static::NOT_FOUND              => 'Resource Not Found',
-    static::METHOD_NOT_ALLOWED     => 'Method Not Allowed',
-    static::INTERNAL_SERVER_ERROR  => 'Internal Server Error',
-    static::SERVICE_UNAVAILABLE    => 'Service Unavailable',
+    self::OK                     => 'OK',
+    self::CREATED                => 'Created',
+    self::NO_CONTENT             => 'No Content',
+    self::BAD_REQUEST            => 'Bad Request',
+    self::UNAUTHORIZED           => 'Unauthorized',
+    self::FORBIDDEN              => 'Forbidden',
+    self::NOT_FOUND              => 'Resource Not Found',
+    self::METHOD_NOT_ALLOWED     => 'Method Not Allowed',
+    self::INTERNAL_SERVER_ERROR  => 'Internal Server Error',
+    self::SERVICE_UNAVAILABLE    => 'Service Unavailable',
   ];
 
   private static array $headers = [

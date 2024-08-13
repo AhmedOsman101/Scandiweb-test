@@ -159,7 +159,7 @@ class Router
   {
     http_response_code($status_code);
 
-    Controller::view($status_code);
+    Controller::view("errors/$status_code");
 
     exit;
   }
