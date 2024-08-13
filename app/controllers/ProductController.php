@@ -17,7 +17,7 @@ class ProductController extends Controller
    *
    * @return mixed The rendered view for the 'index' template, which should display the list of products.
    */
-  public static function index(): void
+  public static function index()
   {
     return static::view('index', [
       'products' => Product::all()
@@ -31,7 +31,7 @@ class ProductController extends Controller
    *
    * @return mixed The rendered view for the "add" template.
    */
-  public static function create(): void
+  public static function create()
   {
     return static::view('add');
   }
