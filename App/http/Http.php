@@ -4,18 +4,18 @@ namespace App\Http;
 
 class Http
 {
-  public const int OK = 200;
-  public const int CREATED = 201;
-  public const int NO_CONTENT = 204;
-  public const int BAD_REQUEST = 400;
-  public const int UNAUTHORIZED = 401;
-  public const int FORBIDDEN = 403;
-  public const int NOT_FOUND = 404;
-  public const int METHOD_NOT_ALLOWED = 405;
-  public const int INTERNAL_SERVER_ERROR = 500;
-  public const int SERVICE_UNAVAILABLE = 503;
+  public const OK = 200;
+  public const CREATED = 201;
+  public const NO_CONTENT = 204;
+  public const BAD_REQUEST = 400;
+  public const UNAUTHORIZED = 401;
+  public const FORBIDDEN = 403;
+  public const NOT_FOUND = 404;
+  public const METHOD_NOT_ALLOWED = 405;
+  public const INTERNAL_SERVER_ERROR = 500;
+  public const SERVICE_UNAVAILABLE = 503;
 
-  public const array STATUS_MESSAGES = [
+  public const STATUS_MESSAGES = [
     self::OK                     => 'OK',
     self::CREATED                => 'Created',
     self::NO_CONTENT             => 'No Content',

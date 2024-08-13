@@ -4,6 +4,7 @@ namespace App\Router;
 
 use App\Http\Http;
 use App\Http\Response;
+use Lib\Interfaces\Middleware;
 
 /**
  * The Router class is responsible for managing the application's routing table and handling incoming requests.
@@ -22,6 +23,13 @@ class Router
   private array $routes = [];
 
   /**
+   * Stores an array of middleware functions that will be executed for each incoming request.
+   *
+   * This private property holds an array of middleware functions that will be executed in the order they are added, before the main route action is executed. Middleware functions can be used to perform tasks such as authentication, logging, or input validation.
+   */
+  private $middlewares = [];
+
+  /**
    * Adds a new route to the application's routing table.
    *
    * @param string $method The HTTP method for the route (e.g. 'GET', 'POST', 'DELETE', 'PUT').
@@ -30,7 +38,7 @@ class Router
    * @param string|null $name An optional name for the route, which can be used to retrieve the route's URI later.
    * @return void
    */
-  public function add(string $method, string $uri, mixed $action, string $name = null): void
+  public function add_route(string $method, string $uri, mixed $action, string $name = null): void
   {
     if ($name) $this->routes[$name] = compact(
       'method',
@@ -44,6 +52,11 @@ class Router
     );
   }
 
+  public function add_middleware(Middleware $middleware)
+  {
+    $this->middlewares[] = $middleware;
+  }
+
   /**
    * Adds a new GET route to the application's routing table.
    *
@@ -54,7 +67,7 @@ class Router
    */
   public function get(string $uri, mixed $action, string $name = null): void
   {
-    $this->add("GET", $uri, $action, $name);
+    $this->add_route("GET", $uri, $action, $name);
   }
 
   /**
@@ -67,7 +80,7 @@ class Router
    */
   public function post(string $uri, mixed $action, string $name = null): void
   {
-    $this->add("POST", $uri, $action, $name);
+    $this->add_route("POST", $uri, $action, $name);
   }
 
   /**
@@ -80,7 +93,7 @@ class Router
    */
   public function delete(string $uri, mixed $action, string $name = null): void
   {
-    $this->add("DELETE", $uri, $action, $name);
+    $this->add_route("DELETE", $uri, $action, $name);
   }
 
   /**
@@ -93,7 +106,7 @@ class Router
    */
   public function put(string $uri, mixed $action, string $name = null): void
   {
-    $this->add("PUT", $uri, $action, $name);
+    $this->add_route("PUT", $uri, $action, $name);
   }
 
   /**
@@ -106,7 +119,7 @@ class Router
    */
   public function patch(string $uri, mixed $action, string $name = null): void
   {
-    $this->add("PATCH", $uri, $action, $name);
+    $this->add_route("PATCH", $uri, $action, $name);
   }
 
   /**
@@ -119,7 +132,7 @@ class Router
    */
   public function options(string $uri, mixed $action, string $name = null): void
   {
-    $this->add("OPTIONS", $uri, $action, $name);
+    $this->add_route("OPTIONS", $uri, $action, $name);
   }
 
   /**
@@ -132,12 +145,32 @@ class Router
    */
   public function watch()
   {
+    $this->setCorsHeaders();
+    $request = $_SERVER['REQUEST_URI'];
+
+    if (sizeOf($this->middlewares)) {
+      foreach ($this->middlewares as $middleware) {
+        $middleware->handle($request, $this->match());
+      }
+    } else $this->match();
+  }
+
+
+
+  private function match()
+  {
+
     // Extract the current URI
     $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 
     // Current request method is determined by a hidden input
     // with the name _method or the request method header
     $request_method = $_POST["_method"] ?? $_SERVER['REQUEST_METHOD'];
+
+    if ($request_method === 'OPTIONS') {
+      http_response_code(204);
+      exit();
+    }
 
     foreach ($this->routes as $route) {
       if ($route['uri'] === $uri && $route['method'] === $request_method) {
@@ -148,6 +181,16 @@ class Router
     // No route matched, abort with 404 status code
     return $this->abort();
   }
+
+  private function setCorsHeaders()
+  {
+    header("Content-Type: application/json; charset=UTF-8");
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: *");
+    header("Access-Control-Allow-Credentials: true");
+  }
+
 
   /**
    * Retrieves the URI for a named route.
@@ -168,6 +211,10 @@ class Router
    */
   public function abort(int $status_code = Http::NOT_FOUND): void
   {
+    $this->setCorsHeaders();
+
+    http_response_code($status_code);
+
     echo Response::Json(
       status_code: $status_code,
       status: Http::STATUS_MESSAGES[$status_code],

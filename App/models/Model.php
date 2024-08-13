@@ -8,7 +8,7 @@ abstract class Model
 {
 
   private static Database $db;
-  public const string TABLE = "";
+  public const TABLE = "";
 
   public static function all(): array
   {
