@@ -21,11 +21,12 @@ footer {
 
 label:not(.card) {
   display: grid;
-  grid-template-areas: "label input";
+  grid-template-areas: "label input" ". error";
   grid-template-columns: 4rem 1fr;
   align-items: center;
   -moz-column-gap: 2rem;
        column-gap: 2rem;
+  position: relative;
 }
 label:not(.card) > span {
   font-weight: 600 !important;
@@ -34,6 +35,9 @@ label:not(.card) > span {
 label:not(.card) input,
 label:not(.card) select {
   grid-area: input;
+}
+label:not(.card) .error {
+  grid-area: error;
 }
 
 .card {
