@@ -38,6 +38,7 @@ label:not(.card) select {
 }
 label:not(.card) .error {
   grid-area: error;
+  font-weight: normal !important;
 }
 
 .card {

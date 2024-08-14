@@ -50,6 +50,7 @@ label:not(.card) {
 
   .error {
     grid-area: error;
+    font-weight: normal !important;
   }
 }
 
