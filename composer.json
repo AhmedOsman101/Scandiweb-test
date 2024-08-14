@@ -8,9 +8,9 @@
 			"App\\Controllers\\": "app/controllers/",
 			"App\\Models\\": "app/models/",
 			"App\\Router\\": "app/router/",
+			"App\\Interfaces\\": "app/interfaces/",
 			"App\\Http\\": "app/http/",
-			"App\\Http\\Middleware\\": "app/http/middleware/",
-			"Lib\\Interfaces\\": "lib/interfaces/"
+			"App\\Http\\Middleware\\": "app/http/middleware/"
 		}
 	},
 	"authors": [
@@ -19,5 +19,7 @@
 			"email": "trollingosman101@outlook.com"
 		}
 	],
-	"require": {}
+	"require-dev": {
+		"squizlabs/php_codesniffer": "^3.10"
+	}
 }
