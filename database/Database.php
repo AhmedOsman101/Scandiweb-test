@@ -8,68 +8,68 @@ use PDOStatement;
 
 class Database
 {
-  protected static $instance;
-  protected static $pdo;
+    protected static $instance;
+    protected static $pdo;
 
 
-  protected function __construct()
-  {
+    protected function __construct()
+    {
 
-    $dsn = Env::get('DB_CONNECTION') . ':';
+        $dsn = Env::get('DB_CONNECTION') . ':';
 
-    $dsn .=
-      http_build_query(
-        data: [
-          "host" => Env::get('DB_HOSTNAME'),
-          "user" => Env::get('DB_USERNAME'),
-          "password" => Env::get('DB_PASSWORD'),
-          "dbname" => Env::get('DB_DATABASE'),
-          "port" => Env::get('DB_PORT'),
-          "charset" => Env::get('DB_CHARSET'),
-        ],
-        arg_separator: ';'
-      );
+        $dsn .=
+            http_build_query(
+                data: [
+                    "host"      => Env::get('DB_HOSTNAME'),
+                    "user"      => Env::get('DB_USERNAME'),
+                    "password"  => Env::get('DB_PASSWORD'),
+                    "dbname"    => Env::get('DB_DATABASE'),
+                    "port"      => Env::get('DB_PORT'),
+                    "charset"   => Env::get('DB_CHARSET'),
+                ],
+                arg_separator: ';'
+            );
 
-    $this->pdo($dsn);
-  }
-
-  public static function getInstance(): self
-  {
-    if (!isset(static::$instance)) {
-      static::$instance = new static();
+        $this->pdo($dsn);
     }
 
-    return static::$instance;
-  }
+    public static function getInstance(): self
+    {
+        if (!isset(static::$instance)) {
+            static::$instance = new static();
+        }
 
-  protected static function pdo(string $dsn): PDO
-  {
-    if (!isset(static::$pdo)) {
-      static::$pdo = new PDO(
-        $dsn,
-        options: [
-          PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
-          PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-          PDO::ATTR_EMULATE_PREPARES   => false,
-        ]
-      );
+        return static::$instance;
     }
 
-    return static::$pdo;
-  }
+    protected static function pdo(string $dsn): PDO
+    {
+        if (!isset(static::$pdo)) {
+            static::$pdo = new PDO(
+                $dsn,
+                options: [
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+                    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_EMULATE_PREPARES   => false,
+                ]
+            );
+        }
 
-  public function readQuery($sql, $params = [])
-  {
-    $statement = static::$pdo->prepare($sql);
-    $statement->execute($params);
+        return static::$pdo;
+    }
 
-    return $statement->fetchAll();
-  }
+    public function readQuery($sql, $params = [])
+    {
+        $statement = static::$pdo->prepare($sql);
+        $statement->execute($params);
 
-  public function writeQuery($sql, $params = []): bool|PDOStatement
-  {
-    $statement = static::$pdo->prepare($sql);
-    $statement->execute($params);
-    return $statement;
-  }
+        return $statement->fetchAll();
+    }
+
+    public function writeQuery($sql, $params = []): bool|PDOStatement
+    {
+        $statement = static::$pdo->prepare($sql);
+        $statement->execute($params);
+        return $statement;
+    }
 }

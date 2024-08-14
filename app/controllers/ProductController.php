@@ -17,12 +17,12 @@ class ProductController extends Controller
    *
    * @return mixed The rendered view for the 'index' template, which should display the list of products.
    */
-  public static function index()
-  {
-    return static::view('index', [
-      'products' => Product::all()
-    ]);
-  }
+    public static function index()
+    {
+        return static::view('index', [
+        'products' => Product::all()
+        ]);
+    }
 
   /**
    * Renders the view for creating a new product.
@@ -31,16 +31,16 @@ class ProductController extends Controller
    *
    * @return mixed The rendered view for the "add" template.
    */
-  public static function create()
-  {
-    return static::view('add');
-  }
+    public static function create()
+    {
+        return static::view('add');
+    }
 
-  public static function store()
-  {
+    public static function store()
+    {
 
-    Helpers::dd($_REQUEST);
-  }
+        Helpers::dd($_REQUEST);
+    }
 
   /**
    * Deletes one or more products based on the provided IDs.
@@ -51,30 +51,32 @@ class ProductController extends Controller
    * If the deletion is successful, it redirects the user to the "product.index" route.
    * If a PDOException occurs during the deletion, it outputs the error message.
    */
-  public static function destroy()
-  {
+    public static function destroy()
+    {
 
-    try {
-      // convert the json input to an assoc array
-      $ids = json_decode($_REQUEST["_ids"], true);
+        try {
+          // convert the json input to an assoc array
+            $ids = json_decode($_REQUEST["_ids"], true);
 
-      // check for empty input
-      if (!sizeof($ids)) Helpers::dd("no data passed"); // FIXME: handle empty input
+          // check for empty input
+            if (!sizeof($ids)) {
+                Helpers::dd("no data passed"); // FIXME: handle empty input
+            }
 
-      // delete the selected product
-      $query = Product::destroy($ids);
+          // delete the selected product
+            $query = Product::destroy($ids);
 
-      // if no products was deleted, return an error
-      if ($query->rowCount() === 0) {
-        // FIXME: not found
-        Helpers::dd("not found");
-      }
+          // if no products was deleted, return an error
+            if ($query->rowCount() === 0) {
+              // FIXME: not found
+                Helpers::dd("not found");
+            }
 
-      // redirect on success
-      Helpers::redirect("product.index");
-    } catch (PDOException $error) {
-      // FIXME: handle pdo errors
-      Helpers::dd($error->getMessage());
+          // redirect on success
+            Helpers::redirect("product.index");
+        } catch (PDOException $error) {
+          // FIXME: handle pdo errors
+            Helpers::dd($error->getMessage());
+        }
     }
-  }
 }

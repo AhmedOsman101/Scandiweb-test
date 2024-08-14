@@ -4,5 +4,5 @@ namespace App\Interfaces;
 
 interface Middleware
 {
-  public function handle($request, $next);
+    public function handle($request, $next);
 }

@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-
-
 class Product extends Model
 {
-  public const TABLE = "products";
+    public const TABLE = "products";
 }
