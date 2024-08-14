@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Product;
 use Lib\Helpers;
-use Lib\Interfaces\Controller;
+use App\Interfaces\Controller;
 use PDOException;
 
 class ProductController extends Controller
@@ -38,8 +38,8 @@ class ProductController extends Controller
 
   public static function store()
   {
-    $data = json_decode(file_get_contents('php://input'), true);
-    Helpers::dd($data, $_REQUEST);
+
+    Helpers::dd($_REQUEST);
   }
 
   /**

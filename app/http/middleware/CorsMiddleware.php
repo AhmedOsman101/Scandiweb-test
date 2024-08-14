@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use Lib\Interfaces\Middleware;
+use App\Interfaces\Middleware;
 
 class CorsMiddleware implements Middleware
 {
