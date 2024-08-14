@@ -1,6 +1,14 @@
 <?php
 
 use Lib\Helpers;
+
+$error = fn($message) => <<<ERROR
+<span class="text-sm text-red-500 error mt-4 -mb-4">
+  $message
+</span>
+ERROR;
+
+
 ?>
 
 
@@ -20,7 +28,7 @@ use Lib\Helpers;
   <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
 </head>
 
-<body class="bg-gray-950 min-h-dvh text-white">
+<body class="bg-gray-950 min-h-dvh text-white" x-data="formStore">
   <!-- Header Area -->
   <header class="py-6">
     <nav class="flex justify-between px-7">
@@ -30,7 +38,7 @@ use Lib\Helpers;
 
       <!-- Buttons Area -->
       <div class="flex space-x-6">
-        <button class="bg-gray-600 rounded-sm px-3 py-1.5 hover:bg-blue-600 transition-colors duration-300">
+        <button class="bg-gray-600 rounded-sm px-3 py-1.5 hover:bg-blue-600 transition-colors duration-300" @click="submit($refs.form)">
           Save
         </button>
         <a href="<?= Helpers::route('product.index') ?>"
@@ -43,30 +51,29 @@ use Lib\Helpers;
 
   <!-- Main Content Area -->
   <main class="grid mt-8 px-3">
-    <form x-data="{
-        Type: 'DVD',
-        SKU: '',
-        Name: '',
-        Price: 0,
-        Size: null,
-        Weight: null,
-        Width: null,
-        Height: null,
-        Length: null,
-        }" class="flex flex-col gap-8 px-5" id="product_form" action="<?= Helpers::route('product.store') ?>"
+    <form
+      x-ref="form"
+      class="flex flex-col gap-8 px-5"
+      id="product_form"
+      action="<?= Helpers::route('product.store') ?>"
       method="post">
+
       <!-- Sku -->
-      <label for="sku" class="">
-        <span>SKU</span>
-        <input x-model="SKU" type="text" id="sku" class="bg-gray-800 rounded-md px-3 py-1" name="sku"
-          placeholder="SKU" />
-      </label>
+      <fieldset>
+        <label for="sku">
+          <span>SKU</span>
+          <input type="text" id="sku" class="bg-gray-800 rounded-md px-3 py-1" name="sku"
+            placeholder="SKU" />
+          <span class="text-sm text-red-500 error mt-4 -mb-4" x-show="errors?.sku" x-text="errors?.sku"></span>
+        </label>
+      </fieldset>
 
       <!-- Name -->
-      <label for="name" class="">
+      <label for="name">
         <span>Name</span>
-        <input x-model="Name" type="text" id="name" class="bg-gray-800 rounded-md px-3 py-1" name="name"
+        <input type="text" id="name" class="bg-gray-800 rounded-md px-3 py-1" name="name"
           placeholder="Name" />
+        <span class="text-sm text-red-500 error mt-4 -mb-4" x-show="errors?.name" x-text="errors?.name"></span>
       </label>
 
       <!-- Price -->
@@ -76,9 +83,10 @@ use Lib\Helpers;
           <span class="flex items-center px-3 pointer-events-none sm:text-sm rounded-l-md bg-gray-700">
             $
           </span>
-          <input x-model="Price" type="number" min="0" name="price" id="price" placeholder="price"
+          <input type="number" min="0" name="price" id="price" placeholder="price"
             class="flex flex-1 sm:text-sm rounded-r-md bg-gray-800" />
         </div>
+        <span class="text-sm text-red-500 error mt-4 -mb-4" x-show="errors?.price" x-text="errors?.price"></span>
       </label>
 
       <!-- Type -->
@@ -86,102 +94,99 @@ use Lib\Helpers;
         <label for="productType">
           <span>Type</span>
 
-          <select x-model="Type" type="number" id="productType" class="bg-gray-800 rounded-md px-3 py-2" name="type">
+          <select x-model="Type" id="productType" class="bg-gray-800 rounded-md px-3 py-2" name="type">
             <option value="DVD">DVD</option>
-            <option value="Book">Book</option>
-            <option value="Furniture">Furniture</option>
+            <option value="BOOK">Book</option>
+            <option value="FURNITURE">Furniture</option>
           </select>
         </label>
+        <span class="text-sm text-red-500 error mt-4 -mb-4" x-show="errors?.type" x-text="errors?.type"></span>
       </fieldset>
 
       <!-- DVD Inputs -->
-      <fieldset x-show="Type === 'DVD'" id="DVD" class="space-y-5 flex flex-col">
-        <label for="size">
-          <span>Size</span>
-
-          <div class="flex">
-            <input x-model="Size" type="number" min="0" name="size" id="size" placeholder="size"
-              class="flex flex-1 sm:text-sm rounded-l-md bg-gray-800" />
-            <span class="flex items-center px-3 pointer-events-none sm:text-sm rounded-r-md bg-gray-700">
-              MB
+      <template x-if="Type === 'DVD'">
+        <fieldset id="DVD" class="space-y-5 flex flex-col">
+          <label for="size">
+            <span>Size</span>
+            <div class="flex">
+              <input type="number" min="0" name="size" id="size" placeholder="size"
+                class="flex flex-1 sm:text-sm rounded-l-md bg-gray-800" />
+              <span class="flex items-center px-3 pointer-events-none sm:text-sm rounded-r-md bg-gray-700">
+                MB
+              </span>
+            </div>
+            <span
+              class="text-sm text-red-500 error mt-4 -mb-4"
+              x-show="errors?.size">
+              Please provide a valid size for the DVD in Megabytes
             </span>
-          </div>
-        </label>
-
-        <li>
-          <span class="text-sm text-gray-500">
-            Please provide a valid size for the DVD in Megabytes.
-          </span>
-        </li>
-      </fieldset>
+          </label>
+        </fieldset>
+      </template>
 
       <!-- BOOK Inputs -->
-      <fieldset x-show="Type === 'Book'" id="Book" class="space-y-5 flex flex-col">
-        <label for="weight">
-          <span>Weight</span>
-
-          <div class="flex">
-            <input x-model="Weight" type="number" min="0" name="weight" id="weight" placeholder="weight"
-              class="flex flex-1 sm:text-sm rounded-l-md bg-gray-800" />
-            <span class="flex items-center px-3 pointer-events-none sm:text-sm rounded-r-md bg-gray-700">
-              KG
+      <template x-if="Type === 'BOOK'">
+        <fieldset id="Book">
+          <label for="weight">
+            <span>Weight</span>
+            <div class="flex">
+              <input type="number" min="0" name="weight" id="weight" placeholder="weight"
+                class="flex flex-1 sm:text-sm rounded-l-md bg-gray-800" />
+              <span class="flex items-center px-3 pointer-events-none sm:text-sm rounded-r-md bg-gray-700">
+                KG
+              </span>
+            </div>
+            <span
+              class="text-sm text-red-500 error mt-4 -mb-4"
+              x-show="errors?.size">
+              Please provide a valid weight for the Book in Kilograms
             </span>
-          </div>
-        </label>
-
-        <li>
-          <span class="text-sm text-gray-500">
-            Please provide a valid weight for the Book in Kilograms.
-          </span>
-        </li>
-      </fieldset>
+          </label>
+        </fieldset>
+      </template>
 
       <!-- FURNITURE Inputs -->
-      <fieldset x-show="Type === 'Furniture'" id="Furniture"
-        class="space-y-5 flex flex-col">
-        <label class="font-semibold" for="Furniture">Dimensions:</label>
-
-        <label for="height">
-          <span>Height</span>
-
-          <div class="flex">
-            <input x-model="Height" type="number" min="0" name="height" id="height" placeholder="height"
-              class="flex flex-1 sm:text-sm rounded-l-md bg-gray-800" />
-            <span class="flex items-center px-3 pointer-events-none sm:text-sm rounded-r-md bg-gray-700">
-              CM
+      <template x-if="Type === 'FURNITURE'">
+        <fieldset id="Furniture"
+          class="space-y-5 flex flex-col">
+          <label class="font-semibold" for="Furniture">Dimensions:</label>
+          <label for="height">
+            <span>Height</span>
+            <div class="flex">
+              <input type="number" min="0" name="height" id="height" placeholder="height"
+                class="flex flex-1 sm:text-sm rounded-l-md bg-gray-800" />
+              <span class="flex items-center px-3 pointer-events-none sm:text-sm rounded-r-md bg-gray-700">
+                CM
+              </span>
+            </div>
+          </label>
+          <label for="width">
+            <span>Width</span>
+            <div class="flex">
+              <input type="number" min="0" name="width" id="width" placeholder="width"
+                class="flex flex-1 sm:text-sm rounded-l-md bg-gray-800" />
+              <span class="flex items-center px-3 pointer-events-none sm:text-sm rounded-r-md bg-gray-700">
+                CM
+              </span>
+            </div>
+          </label>
+          <label for="length">
+            <span>Length</span>
+            <div class="flex">
+              <input type="number" min="0" name="length" id="length" placeholder="length"
+                class="flex flex-1 sm:text-sm rounded-l-md bg-gray-800" />
+              <span class="flex items-center px-3 pointer-events-none sm:text-sm rounded-r-md bg-gray-700">
+                CM
+              </span>
+            </div>
+            <span
+              class="text-sm text-red-500 error mt-4 -mb-4"
+              x-show="errors?.length || errors?.height || errors?.width">
+              Please provide valid dimensions for the furniture in the form of height, width and length in Centimeters
             </span>
-          </div>
-        </label>
-
-        <label for="width">
-          <span>Width</span>
-
-          <div class="flex">
-            <input x-model="Length" type="number" min="0" name="width" id="width" placeholder="width"
-              class="flex flex-1 sm:text-sm rounded-l-md bg-gray-800" />
-            <span class="flex items-center px-3 pointer-events-none sm:text-sm rounded-r-md bg-gray-700">
-              CM
-            </span>
-          </div>
-        </label>
-        <label for="length">
-          <span>Length</span>
-
-          <div class="flex">
-            <input x-model="" type="number" min="0" name="length" id="length" placeholder="length"
-              class="flex flex-1 sm:text-sm rounded-l-md bg-gray-800" />
-            <span class="flex items-center px-3 pointer-events-none sm:text-sm rounded-r-md bg-gray-700">
-              CM
-            </span>
-          </div>
-        </label>
-
-        <li>
-          <span class="text-sm text-gray-500">
-            Please provide valid dimensions for the furniture in the form of height, width and length in Centimeters.
-          </span>
-        </li>
-      </fieldset>
+          </label>
+        </fieldset>
+      </template>
     </form>
   </main>
 
@@ -191,6 +196,48 @@ use Lib\Helpers;
       Scandiweb Test Assignment &copy; 2024
     </p>
   </footer>
+
+  <script>
+    document.addEventListener('alpine:init', () => {
+      Alpine.data('formStore', () => ({
+        Type: "DVD",
+        errors: {},
+
+        validate(form) {
+          const data = Object.fromEntries(new FormData(form));
+          const errors = {};
+
+          for (const [key, field] of Object.entries(data)) {
+            // Empty fields validation
+            if (!field) {
+              // default message for other empty fields
+              errors[key] = `${key} field is required`;
+              continue;
+            }
+
+          };
+
+          const isValid = Object.keys(errors).length === 0;
+
+          return {
+            isValid,
+            errors
+          };
+        },
+
+        submit(form) {
+          const {
+            isValid,
+            errors
+          } = this.validate(form);
+
+          if (isValid) form.submit();
+          else this.errors = errors;
+        }
+      }))
+    })
+  </script>
+
 </body>
 
 </html>
