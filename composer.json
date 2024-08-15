@@ -9,6 +9,7 @@
 			"App\\Models\\": "app/models/",
 			"App\\Router\\": "app/router/",
 			"App\\Interfaces\\": "app/interfaces/",
+			"App\\Enums\\": "app/enums/",
 			"App\\Http\\": "app/http/",
 			"App\\Http\\Middleware\\": "app/http/middleware/"
 		}
@@ -18,8 +19,5 @@
 			"name": "AhmadOthman",
 			"email": "trollingosman101@outlook.com"
 		}
-	],
-	"require-dev": {
-		"squizlabs/php_codesniffer": "^3.10"
-	}
+	]
 }
