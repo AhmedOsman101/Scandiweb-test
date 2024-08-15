@@ -33,7 +33,7 @@ class Helpers
     {
         foreach ($data as $item) {
             echo "<pre>";
-            var_export($item);
+            var_dump($item);
             echo "</pre>";
         }
     }
