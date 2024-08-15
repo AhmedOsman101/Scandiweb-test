@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Enums\ProductType;
 use App\Models\Product;
+use App\Sessions\Flash;
 use Lib\Helpers;
 use Lib\Validator;
 use PDOException;
@@ -34,7 +35,12 @@ class ProductController extends Controller
    */
   public static function create()
   {
-    return static::view('add');
+    return static::view(
+      'add',
+      [
+        "errors" => Flash::get("errors")
+      ]
+    );
   }
 
   public static function store()
@@ -86,49 +92,51 @@ class ProductController extends Controller
       field: "weight",
       number: $weight ?? null,
       min: 0.01,
-      optional: true
+      optional: !isset($weight)
     );
 
     $validator->float(
       field: "size",
       number: $size ?? null,
       min: 0.01,
-      optional: true
+      optional: !isset($size)
     );
 
     $validator->int(
       field: "width",
       number: $width ?? null,
       min: 1,
-      optional: true
+      optional: !isset($width)
     );
 
     $validator->int(
       field: "height",
       number: $height ?? null,
       min: 1,
-      optional: true
+      optional: !isset($height)
     );
 
     $validator->int(
       field: "length",
       number: $length ?? null,
       min: 1,
-      optional: true
+      optional: !isset($length)
     );
 
-    if ($validator->has_errors()) {
-      Helpers::dd($validator->get_errors());
+    if ($validator->hasErrors()) {
+      Flash::set("errors", $validator->getErrors());
+      Helpers::redirect("product.create");
     }
 
     try {
-      $query = Product::create($_POST);
-      Helpers::dd($query);
+      Product::create($_POST);
     } catch (PDOException $e) {
       if ($e->getCode() === "23000") {
-        Helpers::dd("This SKU is already taken");
+        Flash::set("errors", "This SKU is already taken");
+        Helpers::redirect("product.create");
       } else {
-        Helpers::dd($e->getCode(), $e->getMessage());
+        Flash::set("errors", ['message' => $e->getMessage(), 'code' => $e->getCode()]);
+        Helpers::redirect("product.create");
       }
     }
   }
