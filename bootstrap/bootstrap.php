@@ -1,15 +1,10 @@
 <?php
 
-use App\Sessions\Flash;
-use App\Sessions\Session;
 use Lib\Env;
 use Lib\Helpers;
 
 // load environment variables on app start
-Env::load(Helpers::base_path(".env"));
-
-// init flash messages session key
-Session::set(Flash::FLASH_KEY, []);
+Env::load(Helpers::basePath(".env"));
 
 // init the router
-require_once Helpers::base_path("routes/routes.php");
+require_once Helpers::basePath("routes/routes.php");
