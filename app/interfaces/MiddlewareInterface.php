@@ -2,7 +2,7 @@
 
 namespace App\Interfaces;
 
-interface Middleware
+interface MiddlewareInterface
 {
     public function handle($request, $next);
 }

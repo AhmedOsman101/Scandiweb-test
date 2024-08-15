@@ -2,7 +2,7 @@
 
 namespace App\Interfaces;
 
-interface HttpResponse
+interface HttpResponseInterface
 {
     public function Response(): object;
     public static function Json(
