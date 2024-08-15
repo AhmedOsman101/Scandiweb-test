@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Enums\ProductType;
 use App\Models\Product;
 use Lib\Helpers;
-use App\Interfaces\Controller;
 use Lib\Validator;
 use PDOException;
 

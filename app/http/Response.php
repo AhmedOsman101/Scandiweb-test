@@ -2,9 +2,9 @@
 
 namespace App\Http;
 
-use App\Interfaces\HttpResponse;
+use App\Interfaces\HttpResponseInterface;
 
-class Response implements HttpResponse
+class Response implements HttpResponseInterface
 {
     private object $response;
 
