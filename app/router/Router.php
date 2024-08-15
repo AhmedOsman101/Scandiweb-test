@@ -3,7 +3,7 @@
 namespace App\Router;
 
 use App\Http\Http;
-use App\Interfaces\Controller;
+use App\Controllers\Controller;
 
 /**
  * The Router class is responsible for managing the application's routing table and handling incoming requests.

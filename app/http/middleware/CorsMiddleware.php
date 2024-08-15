@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use App\Interfaces\Middleware;
+use App\Interfaces\MiddlewareInterface;
 
-class CorsMiddleware implements Middleware
+class CorsMiddleware implements MiddlewareInterface
 {
     public function handle($request, $next)
     {
