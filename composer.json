@@ -10,6 +10,7 @@
 			"App\\Router\\": "app/router/",
 			"App\\Interfaces\\": "app/interfaces/",
 			"App\\Enums\\": "app/enums/",
+			"App\\Sessions\\": "app/sessions/",
 			"App\\Http\\": "app/http/",
 			"App\\Http\\Middleware\\": "app/http/middleware/"
 		}
