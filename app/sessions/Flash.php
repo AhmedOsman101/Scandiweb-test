@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Sessions;
+
 use App\Interfaces\SessionInterface;
 
 /**
