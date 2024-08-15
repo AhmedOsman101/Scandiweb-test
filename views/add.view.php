@@ -2,13 +2,13 @@
 
 use Lib\Helpers;
 
+$flashErrors = json_encode($errors);
+
 $error = fn($message) => <<<ERROR
 <span class="text-sm text-red-500 error mt-4 -mb-4">
   $message
 </span>
 ERROR;
-
-
 ?>
 
 
@@ -193,15 +193,16 @@ ERROR;
   <!-- Footer Area -->
   <footer class="py-8 grid place-items-center mt-8">
     <p class="text-center font-semibold">
-      Scandiweb Test Assignment &copy; 2024
+      Scandiweb Test Assignment &copy; <?= date("Y") ?>
     </p>
   </footer>
 
   <script>
+    <?= "var flashErrors = $flashErrors;" ?>
     document.addEventListener('alpine:init', () => {
       Alpine.data('formStore', () => ({
         Type: "DVD",
-        errors: {},
+        errors: flashErrors ?? {},
 
         validate(form) {
           const data = Object.fromEntries(new FormData(form));
@@ -226,13 +227,16 @@ ERROR;
         },
 
         submit(form) {
-          const {
-            isValid,
-            errors
-          } = this.validate(form);
+          //! remove on production
+          // const {
+          //   isValid,
+          //   errors
+          // } = this.validate(form);
 
-          if (isValid) form.submit();
-          else this.errors = errors;
+          // if (isValid) form.submit();
+          // else this.errors = errors;
+
+          form.submit();
         }
       }))
     })

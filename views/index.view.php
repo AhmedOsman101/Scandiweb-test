@@ -2,7 +2,7 @@
 
 use Lib\Helpers;
 
-$nav_title = "Products List (" . count($products) . ")";
+$navTitle = "Products List (" . count($products) . ")";
 
 ?>
 
@@ -35,7 +35,7 @@ $nav_title = "Products List (" . count($products) . ")";
   <header class="py-6">
     <nav class="flex justify-between px-7">
       <h1 class="font-bold text-2xl">
-        <?= $nav_title ?>
+        <?= $navTitle ?>
       </h1>
 
       <div class="flex space-x-6">
@@ -88,7 +88,7 @@ $nav_title = "Products List (" . count($products) . ")";
   </main>
   <footer class="py-8 grid place-items-center mt-8">
     <p class="text-center font-semibold">
-      Scandiweb Test Assignment &copy; 2024
+      Scandiweb Test Assignment &copy; <?= date("Y") ?>
     </p>
   </footer>
   <script>

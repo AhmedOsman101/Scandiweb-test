@@ -27,13 +27,13 @@ class Validator
         if ($this->optional($optional, $string)) return;
 
         if (!is_string($string)) {
-            return $this->set_error($field, "must be a string.");
+            return $this->setError($field, "must be a string.");
         }
 
         $len = strlen(trim($string));
 
         if ($len === 0 && !$optional) {
-            return $this->set_error($field, "is required.");
+            return $this->setError($field, "is required.");
         }
 
         $is_in_range =
@@ -105,7 +105,7 @@ class Validator
         $is_float = filter_var($number, FILTER_VALIDATE_FLOAT) && true;
 
         if (!$is_float) {
-            return $this->set_error($field, "must be a decimal value.");
+            return $this->setError($field, "must be a decimal value.");
         }
 
         // check if it's between range and set errors if any.
@@ -139,7 +139,7 @@ class Validator
 
         if (!$is_int) {
             // set the an error if not a integer
-            return $this->set_error($field, "must be an integer value.");
+            return $this->setError($field, "must be an integer value.");
         }
 
         // check if it's between range, set errors if any and return
@@ -162,23 +162,23 @@ class Validator
         return ($value === null || $value === "") & $optional;
     }
 
-    public function get_errors(): array
+    public function getErrors(): array
     {
         return $this->errors;
     }
 
-    public function has_errors(): bool
+    public function hasErrors(): bool
     {
         return (bool) sizeOf($this->errors);
     }
 
-    public function get_error(string $field): string|null
+    public function getError(string $field): string|null
     {
         return $this->errors[$field] ?? null;
     }
 
-    private function set_error(string $field, string $message): void
+    private function setError(string $field, string $message): void
     {
-        $this->errors[$field] = "$field $message";
+        $this->errors[$field] = ucfirst($field) . " $message";
     }
 }

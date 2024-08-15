@@ -24,13 +24,13 @@ class Response implements HttpResponseInterface
 
     public static function Json(
         string $status = null,
-        int $status_code = null,
+        int $statusCode = null,
         array $data = null,
         array $errors = null
     ): string {
         $response = compact(
             "status",
-            "status_code",
+            "statusCode",
             "data",
             "errors"
         );
@@ -42,7 +42,7 @@ class Response implements HttpResponseInterface
             }
         }
 
-        $status_code !== null ? http_response_code($status_code) : null;
+        $statusCode !== null ? http_response_code($statusCode) : null;
 
         return json_encode($response);
     }

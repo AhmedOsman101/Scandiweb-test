@@ -46,7 +46,7 @@ class Helpers
      */
     public static function route(string $name): string|null
     {
-        return static::$router->get_route($name);
+        return static::$router->getRoute($name);
     }
 
     /**
@@ -68,7 +68,7 @@ class Helpers
      * @param string $path The path to append to the base path.
      * @return string The base path, with the path appended.
      */
-    public static function base_path(string $path): string
+    public static function basePath(string $path): string
     {
         return PARENT_DIRECTORY . '/' . $path;
     }
@@ -79,7 +79,7 @@ class Helpers
      * @param Router $router The router instance to be used.
      * @return void
      */
-    public static function set_router(Router $router): void
+    public static function setRouter(Router $router): void
     {
         static::$router = $router;
     }

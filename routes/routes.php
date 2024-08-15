@@ -32,7 +32,7 @@ $router->delete(
 );
 
 // register the router to the Helpers class
-Helpers::set_router($router);
+Helpers::setRouter($router);
 
 // listen for routes
 $router->watch();

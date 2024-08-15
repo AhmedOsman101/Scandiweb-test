@@ -39,6 +39,6 @@ abstract class Controller
         if (count($data)) {
             extract($data);
         }
-        return require_once Helpers::base_path("views/$view.view.php");
+        return require_once Helpers::basePath("views/$view.view.php");
     }
 }
