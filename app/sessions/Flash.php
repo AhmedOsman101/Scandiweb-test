@@ -15,7 +15,7 @@ class Flash implements SessionInterface
    *
    * @var string
    */
-  protected const FLASH_KEY = "_flash";
+  public const FLASH_KEY = "_flash";
 
   /**
    * Retrieve a flash message from the session.
