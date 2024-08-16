@@ -19,7 +19,7 @@ $navTitle = "Products List (" . count($products) . ")";
     name="viewport"
     content="width=device-width, initial-scale=1" />
 
-  <link rel="stylesheet" href="/assets/scss/main.css" />
+  <link rel="stylesheet" href="/assets/sass/main.css" />
 </head>
 
 <body class="bg-gray-950 text-white" x-data="selectStore">
