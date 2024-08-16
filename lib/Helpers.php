@@ -2,7 +2,9 @@
 
 namespace Lib;
 
+use App\Http\Http;
 use App\Router\Router;
+use ReflectionEnum;
 
 /**
  * The Helpers class provides a set of utility functions globally available across the application.
@@ -10,6 +12,11 @@ use App\Router\Router;
 class Helpers
 {
     protected static Router $router;
+
+    //* Singletons should not be cloned nor instantiated by client.
+    protected function __construct() {}
+
+    protected function __clone() {}
 
     /**
      * Dumps the provided data to the browser in a formatted way then kills the script execution.
@@ -58,6 +65,7 @@ class Helpers
     public static function redirect(string $to): void
     {
         $uri = static::route($to);
+        http_response_code(Http::FOUND);
         header("Location: $uri");
         exit;
     }
@@ -82,5 +90,22 @@ class Helpers
     public static function setRouter(Router $router): void
     {
         static::$router = $router;
+    }
+
+    public static function clean(mixed $value): mixed
+    {
+        return filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    }
+
+    public static function enumToAssocArray(string $enumClass): array
+    {
+        $reflection = new ReflectionEnum($enumClass);
+        $assocArray = [];
+
+        foreach ($reflection->getCases() as $case) {
+            $assocArray[$case->name] = $case->getValue();
+        }
+
+        return $assocArray;
     }
 }
