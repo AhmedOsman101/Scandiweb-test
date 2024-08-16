@@ -10,7 +10,7 @@ class Validator
      * Validates a string based on the provided parameters.
      *
      * @param string $field The name of the field being validated.
-     * @param mixed $string The string value to validate.
+     * @param mixed $value The string value to validate.
      * @param int $min The minimum length of the string (default is 1).
      * @param int $max The maximum length of the string (default is PHP_INT_MAX).
      * @param bool $optional Whether the field is optional (default is false).
@@ -19,18 +19,21 @@ class Validator
      */
     public function string(
         string $field,
-        mixed $string,
+        mixed $value,
         int $min = 1,
         int $max = PHP_INT_MAX,
         bool $optional = false
     ) {
-        if ($this->optional($optional, $string)) return;
+        $is_empty = $this->empty($field, $value, $optional);
 
-        if (!is_string($string)) {
+        // if the filed is optional and empty skip the validation
+        if ($is_empty) return;
+
+        if (!is_string($value)) {
             return $this->setError($field, "must be a string.");
         }
 
-        $len = strlen(trim($string));
+        $len = strlen(trim($value));
 
         if ($len === 0 && !$optional) {
             return $this->setError($field, "is required.");
@@ -53,25 +56,25 @@ class Validator
      * @param string|null $field The name of the field being validated. If
      * provided, an error message will be added to the $errors array if the
      * value is not within the specified range.
-     * @param mixed $number The value to validate.
+     * @param mixed $value The value to validate.
      * @param float $min The minimum value (inclusive). Defaults to negative infinity.
      * @param float $max The maximum value (inclusive). Defaults to positive infinity.
      * @return bool True if the value is within the specified range, false otherwise.
      */
     public function between(
         string $field,
-        mixed $number,
+        mixed $value,
         float $min = PHP_FLOAT_MIN,
         float $max = PHP_FLOAT_MAX,
     ): bool {
-        $is_in_range = $min <= $number && $number <= $max;
+        $is_in_range = $min <= $value && $value <= $max;
 
         if (!$is_in_range) {
             $this->errors[$field] = "$field must be between $min and $max";
 
-            if ($min === PHP_FLOAT_MIN || PHP_INT_MIN) {
+            if ($min === PHP_FLOAT_MIN || $min === PHP_INT_MIN) {
                 $this->errors[$field] = "$field must not be more than $max";
-            } else if ($max === PHP_FLOAT_MAX || PHP_INT_MAX) {
+            } else if ($max === PHP_FLOAT_MAX || $max === PHP_INT_MAX) {
                 $this->errors[$field] = "$field must be at least $min";
             }
         }
@@ -85,7 +88,7 @@ class Validator
      * specified minimum and maximum values.
      *
      * @param string $field The name of the field being validated.
-     * @param mixed $number The float value to validate.
+     * @param mixed $value The float value to validate.
      * @param float $min The minimum value (inclusive). Defaults to negative infinity.
      * @param float $max The maximum value (inclusive). Defaults to positive infinity.
      * @param bool $optional Whether the field is optional (default is false).
@@ -94,22 +97,25 @@ class Validator
      */
     public function float(
         string $field,
-        mixed $number,
+        mixed $value,
         float $min = PHP_FLOAT_MIN,
         float $max = PHP_FLOAT_MAX,
         bool $optional = false
     ) {
 
-        if ($this->optional($optional, $number)) return;
+        $is_empty = $this->empty($field, $value, $optional);
 
-        $is_float = filter_var($number, FILTER_VALIDATE_FLOAT) && true;
+        // if the filed is optional and empty skip the validation
+        if ($is_empty) return;
+
+        $is_float = filter_var($value, FILTER_VALIDATE_FLOAT) && true;
 
         if (!$is_float) {
             return $this->setError($field, "must be a decimal value.");
         }
 
         // check if it's between range and set errors if any.
-        $this->between($field, $number, $min, $max);
+        $this->between($field, $value, $min, $max);
     }
 
 
@@ -118,7 +124,7 @@ class Validator
      * specified minimum and maximum values.
      *
      * @param string $field The name of the field being validated.
-     * @param mixed $number The integer value to validate.
+     * @param mixed $value The integer value to validate.
      * @param int $min The minimum value (inclusive). Defaults to negative infinity.
      * @param int $max The maximum value (inclusive). Defaults to positive infinity.
      * @param bool $optional Whether the field is optional (default is false).
@@ -127,15 +133,18 @@ class Validator
      */
     public function int(
         string $field,
-        mixed $number,
+        mixed $value,
         int $min = PHP_INT_MIN,
         int $max = PHP_INT_MAX,
         bool $optional = false
     ) {
 
-        if ($this->optional($optional, $number)) return;
+        $is_empty = $this->empty($field, $value, $optional);
 
-        $is_int = filter_var($number, FILTER_VALIDATE_INT) && true;
+        // if the filed is optional and empty skip the validation
+        if ($is_empty) return;
+
+        $is_int = filter_var($value, FILTER_VALIDATE_INT) && true;
 
         if (!$is_int) {
             // set the an error if not a integer
@@ -143,7 +152,7 @@ class Validator
         }
 
         // check if it's between range, set errors if any and return
-        $this->between($field, $number, $min, $max);
+        $this->between($field, $value, $min, $max);
     }
 
     public function in_enum(string $field, mixed $value, string $enum): void
@@ -157,9 +166,35 @@ class Validator
         }
     }
 
-    private function optional(bool $optional, mixed $value)
-    {
-        return ($value === null || $value === "") & $optional;
+    public function custom(
+        string $field,
+        mixed $value,
+        string $message,
+        callable $callback,
+        bool $optional = false
+    ): void {
+        $is_empty = $this->empty($field, $value, $optional);
+
+        // if the filed is optional and empty skip the validation
+        if ($is_empty) return;
+
+        $callback($value);
+
+        if (isset($this->errors[$field])) $this->errors[$field] = $message;
+    }
+
+    private function empty(
+        string $field,
+        mixed $value,
+        bool $optional = false
+    ): bool {
+        $is_empty = empty($value);
+
+        if (!$optional && $is_empty) {
+            $this->setError($field, "is required");
+        }
+
+        return $is_empty;
     }
 
     public function getErrors(): array
