@@ -12,9 +12,9 @@ class Database
     protected static $pdo;
 
 
+    //* Singletons should not be cloned nor instantiated by client.
     protected function __construct()
     {
-
         $dsn = Env::get('DB_CONNECTION') . ':';
 
         $dsn .=
@@ -33,6 +33,9 @@ class Database
         $this->pdo($dsn);
     }
 
+
+    protected function __clone() {}
+
     public static function getInstance(): self
     {
         if (!isset(static::$instance)) {
@@ -48,7 +51,7 @@ class Database
             static::$pdo = new PDO(
                 $dsn,
                 options: [
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_EMULATE_PREPARES   => false,
                 ]
