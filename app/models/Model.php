@@ -9,6 +9,11 @@ abstract class Model
     private static Database $db;
     public const TABLE = "";
 
+    //* Singletons should not be cloned nor instantiated by client.
+    protected function __construct() {}
+
+    protected function __clone() {}
+
     public static function all(): array
     {
         $sql = "SELECT * FROM " . static::TABLE;
