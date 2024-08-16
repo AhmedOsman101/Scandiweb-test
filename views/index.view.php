@@ -19,16 +19,7 @@ $navTitle = "Products List (" . count($products) . ")";
     name="viewport"
     content="width=device-width, initial-scale=1" />
 
-
-  <script
-    defer
-    src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-
-  <link
-    rel="stylesheet"
-    href="/assets/sass/main.css" />
+  <link rel="stylesheet" href="/assets/scss/main.css" />
 </head>
 
 <body class="bg-gray-950 text-white" x-data="selectStore">
@@ -47,11 +38,12 @@ $navTitle = "Products List (" . count($products) . ")";
         <form
           action="<?= Helpers::route("product.destroy") ?>"
           method="post">
-          <input type="hidden" name="_ids" x-bind:value="JSON.stringify(selected)">
+          <input type="hidden" name="_ids" :value="JSON.stringify(selected)">
           <input type="hidden" name="_method" value="DELETE">
           <button
             type="submit"
-            class="bg-gray-600 rounded-sm px-3 py-1.5 hover:bg-red-800 transition-colors duration-300"
+            class="bg-gray-600 rounded-sm px-3 py-1.5 hover:bg-red-800 disabled:cursor-not-allowed transition-colors duration-300"
+            :disabled="selected.length === 0"
             id="delete-product-btn">
             MASS DELETE
           </button>
@@ -62,24 +54,44 @@ $navTitle = "Products List (" . count($products) . ")";
 
   <main class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-7 mt-8 px-6">
     <?php foreach ($products as $product): ?>
+      <?php
+      $config = $productConfigs[$product['type']];
+      ?>
       <label
-        class="card border p-4 flex flex-col gap-3 bg-gray-800 items-center cursor-pointer">
+        class="card border p-4 flex flex-col gap-3 bg-gray-800 items-center cursor-pointer relative">
+
         <input
           type="checkbox"
           name="check"
-          @click="select(<?= $product->id ?>)"
-          class="delete-checkbox self-start ml-4 rounded cursor-pointer" />
-
-        <h2>
-          <span>Name:</span>
-          <?= htmlspecialchars($product->name) ?>
-        </h2>
+          @click="toggleSelect(<?= $product['id'] ?>)"
+          class="delete-checkbox self-start ml-4 mt-4 rounded cursor-pointer absolute left-0 top-0" />
 
         <p>
-          <span>SKU:</span> <?= htmlspecialchars($product->sku) ?>
+          <?= Helpers::clean($product['sku']) ?>
         </p>
 
-        <p>Price: $<?= number_format($product->price, 2) ?></p>
+        <p>
+          <?= Helpers::clean($product['name']) ?>
+        </p>
+
+        <p>
+          <?= Helpers::clean(number_format($product['price'], 2)) ?> $
+        </p>
+
+        <p>
+          <span class="capitalize">
+            <!-- gets the label of the field -->
+            <?= $config['label'] ?>:
+          </span>
+
+          <span>
+            <?= Helpers::clean($product[$config['field']]) ?>
+          </span>
+
+          <span class="uppercase">
+            <?= $config['suffix'] ?>
+          </span>
+        </p>
       </label>
 
       </div>
@@ -91,22 +103,8 @@ $navTitle = "Products List (" . count($products) . ")";
       Scandiweb Test Assignment &copy; <?= date("Y") ?>
     </p>
   </footer>
-  <script>
-    document.addEventListener('alpine:init', () => {
-      Alpine.data('selectStore', () => ({
-        selected: [],
 
-        select(id) {
-          const index = this.selected.findIndex((item) => item === id);
-
-          // if already selected remove it
-          if (index !== -1) this.selected.splice(index, 1);
-          // else add it
-          else this.selected.push(id);
-        }
-      }))
-    })
-  </script>
+  <script type="module" src="/assets/js/main.js"></script>
 </body>
 
 </html>
