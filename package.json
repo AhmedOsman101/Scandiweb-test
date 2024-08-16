@@ -1,6 +1,6 @@
 {
 	"scripts": {
-		"build-css": "pnpm exec tailwindcss -i ./public/assets/sass/main.css -o ./public/assets/sass/main.css --watch",
+		"build-css": "pnpm exec tailwindcss -i ./public/assets/sass/main.css -o ./public/dist/main.css --watch",
 		"build-js": "pnpm exec esbuild ./public/assets/js/main.js --outfile=public/dist/main.js --bundle --watch",
 		"serve": "concurrently \"pnpm build-css\" \"pnpm build-js\""
 	},
