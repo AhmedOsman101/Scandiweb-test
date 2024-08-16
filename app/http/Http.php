@@ -7,11 +7,13 @@ class Http
     public const OK = 200;
     public const CREATED = 201;
     public const NO_CONTENT = 204;
+    public const FOUND = 302;
     public const BAD_REQUEST = 400;
     public const UNAUTHORIZED = 401;
     public const FORBIDDEN = 403;
     public const NOT_FOUND = 404;
     public const METHOD_NOT_ALLOWED = 405;
+    public const UNPROCESSABLE_CONTENT = 422;
     public const INTERNAL_SERVER_ERROR = 500;
     public const SERVICE_UNAVAILABLE = 503;
 
@@ -19,11 +21,13 @@ class Http
         self::OK                     => 'OK',
         self::CREATED                => 'Created',
         self::NO_CONTENT             => 'No Content',
+        self::FOUND                  => 'Redirect',
         self::BAD_REQUEST            => 'Bad Request',
         self::UNAUTHORIZED           => 'Unauthorized',
         self::FORBIDDEN              => 'Forbidden',
         self::NOT_FOUND              => 'Resource Not Found',
         self::METHOD_NOT_ALLOWED     => 'Method Not Allowed',
+        self::UNPROCESSABLE_CONTENT   => 'Unprocessable Entity',
         self::INTERNAL_SERVER_ERROR  => 'Internal Server Error',
         self::SERVICE_UNAVAILABLE    => 'Service Unavailable',
     ];
@@ -34,9 +38,7 @@ class Http
 
     private static Client $client;
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     private static function getClient(): Client
     {
