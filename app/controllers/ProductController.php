@@ -3,10 +3,12 @@
 namespace App\Controllers;
 
 use App\Enums\ProductType;
+use App\Forms\AddProductForm;
+use App\Http\Http;
+use App\Http\Response;
 use App\Models\Product;
 use App\Sessions\Flash;
 use Lib\Helpers;
-use Lib\Validator;
 use PDOException;
 
 class ProductController extends Controller
@@ -21,9 +23,37 @@ class ProductController extends Controller
    */
   public static function index()
   {
-    return static::view('index', [
-      'products' => Product::all()
-    ]);
+
+    $products = Product::all();
+
+    // filter out null entries
+    $products = array_map(
+      fn($product) => array_filter(
+        $product,
+        fn($value) => $value !== null
+      ),
+      $products
+    );
+
+    $productConfigs = [
+      ProductType::BOOK->value => [
+        'label' => 'Weight',
+        'field' => 'weight',
+        'suffix' => "KG"
+      ],
+      ProductType::DVD->value => [
+        'label' => 'Size',
+        'field' => 'size',
+        'suffix' => "MB"
+      ],
+      ProductType::FURNITURE->value => [
+        'label' => 'Dimensions',
+        'field' => 'dimensions',
+        'suffix' => ""
+      ],
+    ];
+
+    return static::view('index', compact("products", "productConfigs"));
   }
 
   /**
@@ -35,109 +65,56 @@ class ProductController extends Controller
    */
   public static function create()
   {
-    return static::view(
-      'add',
-      [
-        "errors" => Flash::get("errors")
-      ]
-    );
+    return static::view('add');
   }
 
   public static function store()
   {
-    /*
-    id
-    name,
-    sku,
-    price,
-    type,
-    weight,
-    size,
-    width,
-    height,
-    length,
-    created_at
-    */
-    extract($_POST);
+    header("Content-Type: application/json");
 
-    $validator = new Validator();
+    $data = json_decode(file_get_contents('php://input'), true);
 
-    $validator->string(
-      field: "name",
-      string: $name,
-      min: 3,
-      max: 50
-    );
+    $form = new AddProductForm();
 
-    $validator->string(
-      field: "sku",
-      string: $sku,
-      min: 5,
-      max: 75
-    );
+    $form->validate($data);
 
-    $validator->float(
-      field: "price",
-      number: $price,
-      min: 0.01,
-    );
-
-    $validator->in_enum(
-      field: "type",
-      value: $type,
-      enum: ProductType::class
-    );
-
-    $validator->float(
-      field: "weight",
-      number: $weight ?? null,
-      min: 0.01,
-      optional: !isset($weight)
-    );
-
-    $validator->float(
-      field: "size",
-      number: $size ?? null,
-      min: 0.01,
-      optional: !isset($size)
-    );
-
-    $validator->int(
-      field: "width",
-      number: $width ?? null,
-      min: 1,
-      optional: !isset($width)
-    );
-
-    $validator->int(
-      field: "height",
-      number: $height ?? null,
-      min: 1,
-      optional: !isset($height)
-    );
-
-    $validator->int(
-      field: "length",
-      number: $length ?? null,
-      min: 1,
-      optional: !isset($length)
-    );
-
-    if ($validator->hasErrors()) {
-      Flash::set("errors", $validator->getErrors());
-      Helpers::redirect("product.create");
+    if ($form->hasErrors()) {
+      echo Response::Json(
+        status: Http::STATUS_MESSAGES[Http::BAD_REQUEST],
+        statusCode: Http::BAD_REQUEST,
+        errors: $form->getErrors()
+      );
+      exit;
     }
 
+
     try {
-      Product::create($_POST);
+      Product::create($data);
+      echo Response::Json(
+        status: Http::STATUS_MESSAGES[Http::CREATED],
+        statusCode: Http::CREATED,
+      );
+      exit;
+
+      // Helpers::redirect("product.index");
     } catch (PDOException $e) {
+      //* 23000 code means duplicated value in a unique field
       if ($e->getCode() === "23000") {
-        Flash::set("errors", "This SKU is already taken");
-        Helpers::redirect("product.create");
+        echo Response::Json(
+          status: Http::STATUS_MESSAGES[Http::BAD_REQUEST],
+          statusCode: Http::BAD_REQUEST,
+          errors: [
+            "sku" => "This SKU is already taken"
+          ]
+        );
       } else {
-        Flash::set("errors", ['message' => $e->getMessage(), 'code' => $e->getCode()]);
-        Helpers::redirect("product.create");
+        echo Response::Json(
+          status: Http::STATUS_MESSAGES[Http::BAD_REQUEST],
+          statusCode: Http::BAD_REQUEST,
+          errors: [$e->getMessage()]
+        );
       }
+      exit;
     }
   }
 
@@ -158,8 +135,9 @@ class ProductController extends Controller
       $ids = json_decode($_REQUEST["_ids"], true);
 
       // check for empty input
-      if (!sizeof($ids)) {
-        Helpers::dd("no data passed"); // FIXME: handle empty input
+      if (empty($ids)) {
+        Flash::set('error', 'No product IDs provided.');
+        Helpers::redirect('product.index');
       }
 
       // delete the selected product
@@ -167,15 +145,15 @@ class ProductController extends Controller
 
       // if no products was deleted, return an error
       if ($query->rowCount() === 0) {
-        // FIXME: not found
-        Helpers::dd("not found");
+        Flash::set('error', 'No products found for the provided IDs.');
       }
 
-      // redirect on success
+      // redirect back to home
       Helpers::redirect("product.index");
     } catch (PDOException $error) {
-      // FIXME: handle pdo errors
-      Helpers::dd($error->getMessage());
+      // Handle PDO errors
+      Flash::set('error', 'An error occurred while deleting products: ' . $error->getMessage());
+      Helpers::redirect('product.index');
     }
   }
 }
