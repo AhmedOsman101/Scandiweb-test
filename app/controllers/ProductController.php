@@ -53,7 +53,20 @@ class ProductController extends Controller
       ],
     ];
 
-    return static::view('index', compact("products", "productConfigs"));
+    $error = Flash::get("error");
+
+    // If $error is NOT null, reassign it to the JSON version of the value.
+    // If $error IS null, it does nothing, leaving $error as null.
+    $error === null ?: $error = json_encode(Flash::get("error")); //? "?:" is called the "Elvis" operator
+
+    return static::view(
+      'index',
+      compact(
+        "products",
+        "productConfigs",
+        "error"
+      )
+    );
   }
 
   /**
@@ -65,7 +78,14 @@ class ProductController extends Controller
    */
   public static function create()
   {
-    return static::view('add');
+    $types = json_encode(Helpers::enumToAssocArray(ProductType::class));
+
+    return static::view(
+      view: 'add',
+      data: [
+        "types" => $types
+      ]
+    );
   }
 
   public static function store()
@@ -134,9 +154,10 @@ class ProductController extends Controller
       // convert the json input to an assoc array
       $ids = json_decode($_REQUEST["_ids"], true);
 
-      // check for empty input
+      // check for empty inputs
       if (empty($ids)) {
-        Flash::set('error', 'No product IDs provided.');
+        Flash::set('error', 'No products were selected.');
+        // if no ids provided do not try to delete, redirect.
         Helpers::redirect('product.index');
       }
 
@@ -147,12 +168,11 @@ class ProductController extends Controller
       if ($query->rowCount() === 0) {
         Flash::set('error', 'No products found for the provided IDs.');
       }
-
-      // redirect back to home
-      Helpers::redirect("product.index");
     } catch (PDOException $error) {
       // Handle PDO errors
-      Flash::set('error', 'An error occurred while deleting products: ' . $error->getMessage());
+      Flash::set("error", "An error occurred while deleting products");
+    } finally {
+      // redirect back to home
       Helpers::redirect('product.index');
     }
   }
