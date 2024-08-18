@@ -4,8 +4,8 @@ use Lib\Helpers;
 
 $productsCount = count($products);
 
-$navTitle = "Products List";
-empty($productsCount) ?: $navTitle .= " ($productsCount)";
+$title = "Product List";
+empty($productsCount) ?: $title .= " ($productsCount)";
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +14,9 @@ empty($productsCount) ?: $navTitle .= " ($productsCount)";
   class="dark">
 
 <head>
-  <title>Products List</title>
+  <title>
+    <?= $title ?>
+  </title>
 
   <meta charset="utf-8" />
   <meta
@@ -66,7 +68,7 @@ empty($productsCount) ?: $navTitle .= " ($productsCount)";
   <header class="py-6">
     <nav class="flex justify-between px-7">
       <h1 class="font-semibold text-lg md:text-2xl md:font-bold">
-        <?= $navTitle ?>
+        <?= $title ?>
       </h1>
 
       <!-- Buttons Area -->
@@ -84,6 +86,7 @@ empty($productsCount) ?: $navTitle .= " ($productsCount)";
           <button
             type="submit"
             class="button disabled:cursor-not-allowed hover:bg-red-800"
+            :disabled="selected.length === 0"
             id="delete-product-btn">
             MASS DELETE
           </button>
