@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  scroll-behavior: smooth;
+  scrollbar-color: #374151 #1f2937;
+  scrollbar-width: thin;
+}
+
 body {
   display: grid !important;
 
@@ -13,6 +19,14 @@ body {
   grid-template-rows: auto 1fr auto;
 
   min-height: 100dvh;
+}
+
+#toast-default {
+  position: absolute;
+  right: 1rem;
+  top: 0.625rem;
+
+  @apply flex items-center w-full max-w-xs shadow bg-gray-800 rounded-lg overflow-x-hidden h-16;
 }
 
 header {
