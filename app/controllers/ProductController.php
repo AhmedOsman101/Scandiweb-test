@@ -36,20 +36,20 @@ class ProductController extends Controller
         );
 
         $productConfigs = [
-        ProductType::BOOK->value => [
-        "label" => "Weight",
-        "field" => "weight",
-        "suffix" => "KG"
+        ProductType::BOOK->value      => [
+          "label"  => "Weight",
+          "field"  => "weight",
+          "suffix" => "KG",
         ],
-        ProductType::DVD->value => [
-        "label" => "Size",
-        "field" => "size",
-        "suffix" => "MB"
+        ProductType::DVD->value       => [
+          "label"  => "Size",
+          "field"  => "size",
+          "suffix" => "MB",
         ],
         ProductType::FURNITURE->value => [
-        "label" => "Dimensions",
-        "field" => "dimensions",
-        "suffix" => ""
+          "label"  => "Dimensions",
+          "field"  => "dimensions",
+          "suffix" => "",
         ],
         ];
 
@@ -61,7 +61,7 @@ class ProductController extends Controller
             compact(
                 "products",
                 "productConfigs",
-                "error"
+                "error",
             )
         );
     }
@@ -80,7 +80,7 @@ class ProductController extends Controller
         return static::view(
             view: 'add',
             data: [
-            "types" => $types
+              "types" => $types,
             ]
         );
     }
@@ -109,7 +109,7 @@ class ProductController extends Controller
             Product::create($data);
             echo Response::json(
                 status: Http::STATUS_MESSAGES[Http::CREATED],
-                statusCode: Http::CREATED,
+                statusCode: Http::CREATED
             );
             exit;
 
@@ -121,14 +121,14 @@ class ProductController extends Controller
                     status: Http::STATUS_MESSAGES[Http::BAD_REQUEST],
                     statusCode: Http::BAD_REQUEST,
                     errors: [
-                    "sku" => "This SKU is already taken"
-                    ]
+                      "sku" => "This SKU is already taken",
+                    ],
                 );
             } else {
                 echo Response::json(
                     status: Http::STATUS_MESSAGES[Http::BAD_REQUEST],
                     statusCode: Http::BAD_REQUEST,
-                    errors: [$e->getMessage()]
+                    errors: [$e->getMessage()],
                 );
             }
             exit;

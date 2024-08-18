@@ -11,9 +11,9 @@ class Response implements HttpResponseInterface
     public function __construct(string $data, int $statusCode, array $status)
     {
         $this->response = (object) [
-            'data' => json_decode($data),
-            'status' => (object) $status,
-            'statusCode' => $statusCode
+            'data'       => json_decode($data),
+            'status'     => (object) $status,
+            'statusCode' => $statusCode,
         ];
     }
 

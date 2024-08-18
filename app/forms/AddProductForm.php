@@ -69,7 +69,7 @@ class AddProductForm implements FormInterface
                     $this->validator->int(
                         field: "dimensions",
                         value: $value,
-                        min: 1,
+                        min: 1
                     );
                 }
             },

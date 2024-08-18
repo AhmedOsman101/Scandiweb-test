@@ -23,8 +23,8 @@ class Client
     public function execute(string $method, string $url, array $options = []): Response
     {
         $allOptions = [
-            CURLOPT_URL => $url,
-            CURLOPT_CUSTOMREQUEST => $method,
+            CURLOPT_URL            => $url,
+            CURLOPT_CUSTOMREQUEST  => $method,
             CURLOPT_RETURNTRANSFER => true,
         ];
 
@@ -48,13 +48,13 @@ class Client
             $status = [];
 
             if ($response === false) {
-                $status["error"] =  curl_error($this->ch);
+                $status["error"] = curl_error($this->ch);
             }
 
             $statusCode = curl_getinfo($this->ch, CURLINFO_RESPONSE_CODE);
 
             if (in_array($statusCode, array_keys(Http::STATUS_MESSAGES))) {
-                $status["response"]  = Http::STATUS_MESSAGES[$statusCode];
+                $status["response"] = Http::STATUS_MESSAGES[$statusCode];
             }
 
             return new Response($response, $statusCode, $status);

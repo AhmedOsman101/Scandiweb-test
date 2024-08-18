@@ -20,12 +20,12 @@ class Database
         $dsn .=
             http_build_query(
                 data: [
-                    "host"      => Env::get('DB_HOSTNAME'),
-                    "user"      => Env::get('DB_USERNAME'),
-                    "password"  => Env::get('DB_PASSWORD'),
-                    "dbname"    => Env::get('DB_DATABASE'),
-                    "port"      => Env::get('DB_PORT'),
-                    "charset"   => Env::get('DB_CHARSET'),
+                    "host"     => Env::get('DB_HOSTNAME'),
+                    "user"     => Env::get('DB_USERNAME'),
+                    "password" => Env::get('DB_PASSWORD'),
+                    "dbname"   => Env::get('DB_DATABASE'),
+                    "port"     => Env::get('DB_PORT'),
+                    "charset"  => Env::get('DB_CHARSET'),
                 ],
                 arg_separator: ';'
             );

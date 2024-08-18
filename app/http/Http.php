@@ -4,32 +4,32 @@ namespace App\Http;
 
 class Http
 {
-    public const int OK = 200;
-    public const int CREATED = 201;
-    public const int NO_CONTENT = 204;
-    public const int FOUND = 302;
-    public const int BAD_REQUEST = 400;
-    public const int UNAUTHORIZED = 401;
-    public const int FORBIDDEN = 403;
-    public const int NOT_FOUND = 404;
-    public const int METHOD_NOT_ALLOWED = 405;
+    public const int OK                    = 200;
+    public const int CREATED               = 201;
+    public const int NO_CONTENT            = 204;
+    public const int FOUND                 = 302;
+    public const int BAD_REQUEST           = 400;
+    public const int UNAUTHORIZED          = 401;
+    public const int FORBIDDEN             = 403;
+    public const int NOT_FOUND             = 404;
+    public const int METHOD_NOT_ALLOWED    = 405;
     public const int UNPROCESSABLE_CONTENT = 422;
     public const int INTERNAL_SERVER_ERROR = 500;
-    public const int SERVICE_UNAVAILABLE = 503;
+    public const int SERVICE_UNAVAILABLE   = 503;
 
     public const array STATUS_MESSAGES = [
-        self::OK                     => 'OK',
-        self::CREATED                => 'Created',
-        self::NO_CONTENT             => 'No Content',
-        self::FOUND                  => 'Redirect',
-        self::BAD_REQUEST            => 'Bad Request',
-        self::UNAUTHORIZED           => 'Unauthorized',
-        self::FORBIDDEN              => 'Forbidden',
-        self::NOT_FOUND              => 'Resource Not Found',
-        self::METHOD_NOT_ALLOWED     => 'Method Not Allowed',
-        self::UNPROCESSABLE_CONTENT   => 'Unprocessable Entity',
-        self::INTERNAL_SERVER_ERROR  => 'Internal Server Error',
-        self::SERVICE_UNAVAILABLE    => 'Service Unavailable',
+        self::OK                    => 'OK',
+        self::CREATED               => 'Created',
+        self::NO_CONTENT            => 'No Content',
+        self::FOUND                 => 'Redirect',
+        self::BAD_REQUEST           => 'Bad Request',
+        self::UNAUTHORIZED          => 'Unauthorized',
+        self::FORBIDDEN             => 'Forbidden',
+        self::NOT_FOUND             => 'Resource Not Found',
+        self::METHOD_NOT_ALLOWED    => 'Method Not Allowed',
+        self::UNPROCESSABLE_CONTENT => 'Unprocessable Entity',
+        self::INTERNAL_SERVER_ERROR => 'Internal Server Error',
+        self::SERVICE_UNAVAILABLE   => 'Service Unavailable',
     ];
 
     private static array $headers = [
@@ -58,8 +58,8 @@ class Http
     ): Response {
         $options = [
             'headers' => static::$headers,
-            'data' => $data,
-            'return' => $return
+            'data'    => $data,
+            'return'  => $return,
         ];
 
         return static::getClient()->execute($method, $url, $options);
