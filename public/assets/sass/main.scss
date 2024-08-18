@@ -42,7 +42,7 @@ footer {
 }
 
 .button {
-  @apply bg-gray-600 md:text-base text-sm rounded-sm px-3 py-1.5 transition-colors duration-300 md:font-semibold;
+  @apply bg-gray-600 md:text-base text-sm rounded-sm px-3 py-1.5 transition-colors duration-300 md:font-semibold h-fit;
 }
 
 label:not(.card) {
