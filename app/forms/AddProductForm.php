@@ -30,7 +30,7 @@ class AddProductForm implements FormInterface
       field: "sku",
       value: $sku,
       min: 5,
-      max: 75
+      max: 50
     );
 
     $this->validator->float(
