@@ -2,7 +2,10 @@
 
 use Lib\Helpers;
 
-$navTitle = "Products List (" . count($products) . ")";
+$productsCount = count($products);
+
+$navTitle = "Products List";
+$navTitle .= empty($productsCount) ?: " ($productsCount)";
 ?>
 
 <!DOCTYPE html>
@@ -23,6 +26,7 @@ $navTitle = "Products List (" . count($products) . ")";
 
 <body class="bg-gray-950 text-white" x-data="homeStore">
 
+  <!-- flashMessages area -->
   <div
     id="toast-default"
     role="alert"
@@ -58,16 +62,18 @@ $navTitle = "Products List (" . count($products) . ")";
     </button>
   </div>
 
+  <!-- Header Area -->
   <header class="py-6">
     <nav class="flex justify-between px-7">
-      <h1 class="font-bold text-2xl">
+      <h1 class="font-semibold text-lg md:text-2xl md:font-bold">
         <?= $navTitle ?>
       </h1>
 
-      <div class="flex space-x-6">
+      <!-- Buttons Area -->
+      <div class="flex space-x-3 md:space-x-6">
         <a
           href="add-product"
-          class="bg-gray-600 rounded-sm px-3 py-1.5 hover:bg-blue-600 transition-colors duration-300">
+          class="button hover:bg-blue-800">
           ADD
         </a>
         <form
@@ -77,7 +83,7 @@ $navTitle = "Products List (" . count($products) . ")";
           <input type="hidden" name="_method" value="DELETE">
           <button
             type="submit"
-            class="bg-gray-600 rounded-sm px-3 py-1.5 hover:bg-red-800 disabled:cursor-not-allowed transition-colors duration-300"
+            class="button disabled:cursor-not-allowed hover:bg-red-800"
             id="delete-product-btn">
             MASS DELETE
           </button>
@@ -86,62 +92,21 @@ $navTitle = "Products List (" . count($products) . ")";
     </nav>
   </header>
 
-  <main class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-7 mt-8 px-6">
-    <?php foreach ($products as $product): ?>
-      <?php
-      $config = $productConfigs[$product['type']];
-      ?>
-      <label
-        class="card border p-4 flex flex-col gap-3 bg-gray-800 items-center cursor-pointer relative">
+  <!-- Main Content Area -->
+  <?php if (empty($productsCount)): ?>
+    <?php include_once "partials/noProducts.php" ?>
+  <?php else: ?>
+    <?php include_once "partials/products.php" ?>
+  <?php endif; ?>
 
-        <input
-          type="checkbox"
-          name="check"
-          @click="toggleSelect(<?= $product['id'] ?>)"
-          class="delete-checkbox self-start ml-4 mt-4 rounded cursor-pointer absolute left-0 top-0" />
+  <!-- Footer Area -->
+  <?php include_once "partials/footer.php" ?>
 
-        <p>
-          <?= Helpers::clean($product['sku']) ?>
-        </p>
-
-        <p>
-          <?= Helpers::clean($product['name']) ?>
-        </p>
-
-        <p>
-          <?= Helpers::clean(number_format($product['price'], 2)) ?> $
-        </p>
-
-        <p>
-          <span class="capitalize">
-            <!-- gets the label of the field -->
-            <?= $config['label'] ?>:
-          </span>
-
-          <span>
-            <?= Helpers::clean($product[$config['field']]) ?>
-          </span>
-
-          <span class="uppercase">
-            <?= $config['suffix'] ?>
-          </span>
-        </p>
-      </label>
-
-      </div>
-    <?php endforeach; ?>
-
-  </main>
-  <footer class="py-8 grid place-items-center mt-8">
-    <p class="text-center font-semibold">
-      Scandiweb Test Assignment &copy; <?= date("Y") ?>
-    </p>
-  </footer>
 
   <script>
     <?=
     <<<Script
-        var error = $error;\n
+    var error = $error;\n
     Script;
     ?>
   </script>
