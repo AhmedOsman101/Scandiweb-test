@@ -2,16 +2,41 @@
 
 namespace App\Http;
 
+use CurlHandle;
+
+/**
+ * Singleton HTTP client for making HTTP requests using cURL.
+ *
+ * This class provides a singleton instance to manage HTTP requests and responses via cURL.
+ * It handles various HTTP methods and manages request options.
+ */
 class Client
 {
+    /**
+     * @var Client|null Singleton instance of the Client class.
+     */
     private static ?Client $instance = null;
-    private $ch;
 
+    /**
+     * @var CurlHandle cURL handle for making HTTP requests.
+     */
+    private CurlHandle $ch;
+
+    //* Singletons should not be cloned nor instantiated by client.
     private function __construct()
     {
         $this->ch = curl_init();
     }
 
+    private function __clone()
+    {
+    }
+
+    /**
+     * Gets the singleton instance of the Client class.
+     *
+     * @return static The singleton instance of the Client class.
+     */
     public static function getInstance(): static
     {
         if (static::$instance === null) {
@@ -20,6 +45,17 @@ class Client
         return static::$instance;
     }
 
+    /**
+     * Executes an HTTP request using the specified method and options.
+     *
+     * @param string $method The HTTP method (e.g., GET, POST, PUT, PATCH, DELETE).
+     * @param string $url The URL for the request.
+     * @param array $options Optional request options including headers, data, and whether to return the response.
+     *
+     * @return Response The HTTP response.
+     *
+     * @throws \RuntimeException If the HTTP request fails.
+     */
     public function execute(string $method, string $url, array $options = []): Response
     {
         $allOptions = [
@@ -65,6 +101,9 @@ class Client
         }
     }
 
+    /**
+     * Destructor to close the cURL handle.
+     */
     public function __destruct()
     {
         curl_close($this->ch);

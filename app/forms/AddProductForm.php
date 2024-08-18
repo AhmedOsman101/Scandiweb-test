@@ -6,15 +6,41 @@ use App\Enums\ProductType;
 use App\Interfaces\FormInterface;
 use Lib\Validator;
 
+/**
+ * Form validation class for adding a product.
+ *
+ * This class handles the validation logic for the product addition form, ensuring that
+ * the submitted data meets the required criteria. It uses a Validator instance to perform
+ * various validation checks on form fields.
+ */
 class AddProductForm implements FormInterface
 {
+    /**
+     * @var Validator The validator instance used for validating form data.
+     */
     protected Validator $validator;
 
+    /**
+     * Constructs a new instance of the AddProductForm class.
+     *
+     * Initializes the validator instance.
+     */
     public function __construct()
     {
         $this->validator = new Validator();
     }
 
+
+    /**
+     * Validates the provided form data.
+     *
+     * This method performs various validation checks on the form data, including
+     * string length, numeric values, enum values, and custom validation for dimensions.
+     *
+     * @param array $formData The form data to validate.
+     *
+     * @return void
+     */
     public function validate(array $formData): void
     {
         extract($formData);
@@ -76,13 +102,28 @@ class AddProductForm implements FormInterface
             optional: !isset($dimensions)
         );
     }
+
+    /**
+     * Retrieves the validation errors.
+     *
+     * This method returns an array of validation errors, if any exist.
+     *
+     * @return array The array of validation errors.
+     */
     public function getErrors(): array
     {
-        return $this?->validator->getErrors();
+        return $this->validator?->getErrors();
     }
 
+    /**
+     * Checks if there are any validation errors.
+     *
+     * This method returns a boolean indicating whether there are any validation errors.
+     *
+     * @return bool True if there are validation errors, false otherwise.
+     */
     public function hasErrors(): bool
     {
-        return $this?->validator->hasErrors();
+        return $this->validator?->hasErrors();
     }
 }
