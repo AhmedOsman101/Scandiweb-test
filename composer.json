@@ -11,7 +11,7 @@
 			"App\\Interfaces\\": "app/interfaces/",
 			"App\\Enums\\": "app/enums/",
 			"App\\Sessions\\": "app/sessions/",
-			"App\\forms\\": "app/forms/",
+			"App\\Forms\\": "app/forms/",
 			"App\\Http\\": "app/http/",
 			"App\\Http\\Middleware\\": "app/http/middleware/"
 		}
