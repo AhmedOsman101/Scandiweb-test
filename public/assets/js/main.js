@@ -2,7 +2,7 @@ import Alpine from "alpinejs";
 
 window.Alpine = Alpine;
 
-Alpine.data("selectStore", () => ({
+Alpine.data("homeStore", () => ({
 	selected: [],
 
 	toggleSelect(id) {
@@ -15,7 +15,7 @@ Alpine.data("selectStore", () => ({
 }));
 
 Alpine.data("formStore", () => ({
-	types,
+	types, // passed from PHP
 	type: types.DVD,
 	dimensions: null,
 	width: null,
@@ -55,6 +55,37 @@ Alpine.data("formStore", () => ({
 			}
 			this.errors = response.errors;
 		} else this.errors = errors;
+	},
+}));
+
+Alpine.data("flashError", () => ({
+	showFlash: false,
+	error, // passed from PHP,
+	flashTimeout: null, // Store the timeout ID here
+	// This method checks for the presence of an error and triggers the flash message display
+	showFlashMessage() {
+		if (this.error) {
+			/*
+			? Added a delay of 1ms before setting 'showFlash' to true.
+			? This delay allows the code to mimic the behavior of a value change on the client side,
+			? rather than immediately applying a value that was already true from the server response.
+			? Without this delay, the flash message would pop up abruptly, skipping the intended transition effect.
+			*/
+			setTimeout(() => (this.showFlash = true), 1); // Show after 1ms
+
+			// Set the timeout to automatically hide the flash message after 3.5 seconds
+			this.flashTimeout = setTimeout(() => this.toggleFlash(), 3500);
+		}
+	},
+
+	toggleFlash() {
+		// If the flash message is manually closed, clear the timeout
+		if (this.showFlash && this.flashTimeout) {
+			clearTimeout(this.flashTimeout);
+			this.flashTimeout = null;
+		}
+
+		this.showFlash = !this.showFlash;
 	},
 }));
 
