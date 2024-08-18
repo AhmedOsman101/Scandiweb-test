@@ -30,11 +30,14 @@ $homeRoute = Helpers::route('product.index');
 
       <!-- Buttons Area -->
       <div class="flex space-x-6">
-        <button class="bg-gray-600 rounded-sm px-3 py-1.5 hover:bg-blue-600 transition-colors duration-300" @click.debounce="submit($refs.form)">
+        <button
+          class="button hover:bg-blue-800"
+          @click.debounce="submit($refs.form)">
           Save
         </button>
-        <a href="<?= Helpers::route('product.index') ?>"
-          class="bg-gray-600 rounded-sm px-3 py-1.5 hover:bg-red-800 transition-colors duration-300">
+        <a
+          href="<?= Helpers::route('product.index') ?>"
+          class="button disabled:cursor-not-allowed hover:bg-red-800">
           Cancel
         </a>
       </div>
@@ -42,10 +45,8 @@ $homeRoute = Helpers::route('product.index');
   </header>
 
   <!-- Main Content Area -->
-  <main class="grid mt-8 px-3">
-    <!-- remove novalidate on production -->
+  <main class="grid mt-8 px-3 h-fit">
     <form
-      novalidate
       x-ref="form"
       class="flex flex-col gap-8 px-5"
       id="product_form"
@@ -61,8 +62,7 @@ $homeRoute = Helpers::route('product.index');
             name="sku"
             type="text"
             class="bg-gray-800 rounded-md px-3 py-1"
-            placeholder="SKU"
-            required />
+            placeholder="SKU" />
           <span class="text-sm text-red-500 error mt-4 -mb-4" x-show="errors?.sku" x-text="errors?.sku"></span>
         </label>
       </fieldset>
@@ -75,8 +75,7 @@ $homeRoute = Helpers::route('product.index');
           name="name"
           type="text"
           class="bg-gray-800 rounded-md px-3 py-1"
-          placeholder="Name"
-          required />
+          placeholder="Name" />
         <span class="text-sm text-red-500 error mt-4 -mb-4" x-show="errors?.name" x-text="errors?.name"></span>
       </label>
 
@@ -91,11 +90,8 @@ $homeRoute = Helpers::route('product.index');
             id="price"
             name="price"
             type="text"
-            pattern="[^0-9]"
-            min="0"
             placeholder="price"
-            class="flex flex-1 sm:text-sm rounded-r-md bg-gray-800"
-            required />
+            class="flex flex-1 sm:text-sm rounded-r-md bg-gray-800" />
         </div>
         <span class="text-sm text-red-500 error mt-4 -mb-4" x-show="errors?.price" x-text="errors?.price"></span>
       </label>
@@ -109,8 +105,7 @@ $homeRoute = Helpers::route('product.index');
             id="productType"
             x-model="type"
             name="type"
-            class="bg-gray-800 rounded-md px-3 py-2"
-            required>
+            class="bg-gray-800 rounded-md px-3 py-2">
             <option
               :value="types.DVD"
               :selected="type === types.DVD">DVD</option>
@@ -135,8 +130,6 @@ $homeRoute = Helpers::route('product.index');
                 id="size"
                 name="size"
                 type="text"
-                pattern="[^0-9]"
-                min="0"
                 placeholder="size"
                 class="flex flex-1 sm:text-sm rounded-l-md bg-gray-800" />
               <span class="flex items-center px-3 pointer-events-none sm:text-sm rounded-r-md bg-gray-700">
@@ -162,8 +155,6 @@ $homeRoute = Helpers::route('product.index');
                 id="weight"
                 name="weight"
                 type="text"
-                pattern="[^0-9]"
-                min="0"
                 placeholder="weight"
                 class="flex flex-1 sm:text-sm rounded-l-md bg-gray-800" />
               <span class="flex items-center px-3 pointer-events-none sm:text-sm rounded-r-md bg-gray-700">
@@ -191,7 +182,6 @@ $homeRoute = Helpers::route('product.index');
               <input
                 id="height"
                 type="text"
-                pattern="[^0-9]"
                 x-model="height"
                 placeholder="height"
                 class="flex flex-1 sm:text-sm rounded-l-md bg-gray-800" />
@@ -206,7 +196,6 @@ $homeRoute = Helpers::route('product.index');
               <input
                 id="width"
                 type="text"
-                pattern="[^0-9]"
                 x-model="width"
                 placeholder="width"
                 class="flex flex-1 sm:text-sm rounded-l-md bg-gray-800" />
@@ -221,7 +210,6 @@ $homeRoute = Helpers::route('product.index');
               <input
                 id="length"
                 type="text"
-                pattern="[^0-9]"
                 x-model="length"
                 placeholder="length"
                 class="flex flex-1 sm:text-sm rounded-l-md bg-gray-800" />
@@ -241,11 +229,7 @@ $homeRoute = Helpers::route('product.index');
   </main>
 
   <!-- Footer Area -->
-  <footer class="py-8 grid place-items-center mt-8">
-    <p class="text-center font-semibold">
-      Scandiweb Test Assignment &copy; <?= date("Y") ?>
-    </p>
-  </footer>
+  <?php include_once "partials/footer.php" ?>
 
   <script>
     <?=
