@@ -1,9 +1,7 @@
 <?php
 
-use App\Enums\ProductType;
 use Lib\Helpers;
 
-$types = json_encode(Helpers::enumToAssocArray(ProductType::class));
 $homeRoute = Helpers::route('product.index');
 ?>
 
@@ -18,7 +16,7 @@ $homeRoute = Helpers::route('product.index');
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <link rel="stylesheet" href="/assets/sass/main.css" />
+  <link rel="stylesheet" href="/dist/main.css" />
 
 </head>
 
@@ -32,7 +30,7 @@ $homeRoute = Helpers::route('product.index');
 
       <!-- Buttons Area -->
       <div class="flex space-x-6">
-        <button class="bg-gray-600 rounded-sm px-3 py-1.5 hover:bg-blue-600 transition-colors duration-300" @click="submit($refs.form)">
+        <button class="bg-gray-600 rounded-sm px-3 py-1.5 hover:bg-blue-600 transition-colors duration-300" @click.debounce="submit($refs.form)">
           Save
         </button>
         <a href="<?= Helpers::route('product.index') ?>"
@@ -45,6 +43,7 @@ $homeRoute = Helpers::route('product.index');
 
   <!-- Main Content Area -->
   <main class="grid mt-8 px-3">
+    <!-- remove novalidate on production -->
     <form
       novalidate
       x-ref="form"
@@ -259,7 +258,7 @@ $homeRoute = Helpers::route('product.index');
     Script; ?>
   </script>
 
-  <script type="module" src="/assets/js/main.js"></script>
+  <script type="module" src="/dist/main.js"></script>
 
 </body>
 
