@@ -53,11 +53,8 @@ class ProductController extends Controller
       ],
     ];
 
-    $error = Flash::get("error");
 
-    // If $error is NOT null, reassign it to the JSON version of the value.
-    // If $error IS null, it does nothing, leaving $error as null.
-    $error === null ?: $error = json_encode(Flash::get("error")); //? "?:" is called the "Elvis" operator
+    $error = json_encode(Flash::get("error"));
 
     return static::view(
       'index',
