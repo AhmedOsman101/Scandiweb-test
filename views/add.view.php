@@ -116,8 +116,8 @@ $homeRoute = Helpers::route('product.index');
               :value="types.FURNITURE"
               :selected="type === types.FURNITURE">Furniture</option>
           </select>
+          <span class="text-sm text-red-500 error mt-4 -mb-4" x-show="errors?.type" x-text="errors?.type"></span>
         </label>
-        <span class="text-sm text-red-500 error mt-4 -mb-4" x-show="errors?.type" x-text="errors?.type"></span>
       </fieldset>
 
       <!-- DVD Inputs -->
