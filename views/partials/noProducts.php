@@ -20,7 +20,7 @@ use Lib\Helpers;
     <p class="text-xl mt-4 font-semibold md:text-2xl">Looks like you have no products yet.</p>
     <a href="<?= Helpers::route('product.create') ?>"
       class="mt-4 px-8 py-3 font-semibold transition-colors duration-500 rounded bg-blue-600 hover:bg-blue-500 text-gray-50">
-      Let's add some products!
+      Let's create some products!
     </a>
   </div>
 </main>
