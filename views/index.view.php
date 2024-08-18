@@ -5,7 +5,7 @@ use Lib\Helpers;
 $productsCount = count($products);
 
 $navTitle = "Products List";
-$navTitle .= empty($productsCount) ?: " ($productsCount)";
+empty($productsCount) ?: $navTitle .= " ($productsCount)";
 ?>
 
 <!DOCTYPE html>
