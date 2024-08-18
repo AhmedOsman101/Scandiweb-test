@@ -35,6 +35,10 @@ footer {
   border-top: 1px solid white;
 }
 
+.button {
+  @apply bg-gray-600 md:text-base text-sm rounded-sm px-3 py-1.5 transition-colors duration-300 md:font-semibold;
+}
+
 label:not(.card) {
   display: grid;
   grid-template-areas: "label input" ". error";
@@ -76,4 +80,10 @@ input[type=number] {
   -webkit-appearance: textfield !important;
      -moz-appearance: textfield !important;
           appearance: textfield !important;
+}
+
+@media (max-width: 600px) {
+  main {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  }
 }/*# sourceMappingURL=main.css.map */
