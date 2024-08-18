@@ -8,7 +8,6 @@ session_start();
 
 define('PARENT_DIRECTORY', dirname(__DIR__));
 
-
 // import composer autoloader
 require_once PARENT_DIRECTORY . '/vendor/autoload.php';
 

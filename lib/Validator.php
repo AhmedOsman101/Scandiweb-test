@@ -27,7 +27,9 @@ class Validator
         $is_empty = $this->empty($field, $value, $optional);
 
         // if the filed is optional and empty skip the validation
-        if ($is_empty) return;
+        if ($is_empty) {
+            return;
+        }
 
         if (!is_string($value)) {
             return $this->setError($field, "must be a string.");
@@ -74,7 +76,7 @@ class Validator
 
             if ($min === PHP_FLOAT_MIN || $min === PHP_INT_MIN) {
                 $this->errors[$field] = "$field must not be more than $max";
-            } else if ($max === PHP_FLOAT_MAX || $max === PHP_INT_MAX) {
+            } elseif ($max === PHP_FLOAT_MAX || $max === PHP_INT_MAX) {
                 $this->errors[$field] = "$field must be at least $min";
             }
         }
@@ -106,7 +108,9 @@ class Validator
         $is_empty = $this->empty($field, $value, $optional);
 
         // if the filed is optional and empty skip the validation
-        if ($is_empty) return;
+        if ($is_empty) {
+            return;
+        }
 
         $is_float = filter_var($value, FILTER_VALIDATE_FLOAT) && true;
 
@@ -142,7 +146,9 @@ class Validator
         $is_empty = $this->empty($field, $value, $optional);
 
         // if the filed is optional and empty skip the validation
-        if ($is_empty) return;
+        if ($is_empty) {
+            return;
+        }
 
         $is_int = filter_var($value, FILTER_VALIDATE_INT) && true;
 
@@ -155,7 +161,7 @@ class Validator
         $this->between($field, $value, $min, $max);
     }
 
-    public function in_enum(string $field, mixed $value, string $enum): void
+    public function inEnum(string $field, mixed $value, string $enum): void
     {
         $is_valid = $enum::tryFrom($value);
         $is_valid = call_user_func([$enum, "tryFrom"], $value);
@@ -176,11 +182,15 @@ class Validator
         $is_empty = $this->empty($field, $value, $optional);
 
         // if the filed is optional and empty skip the validation
-        if ($is_empty) return;
+        if ($is_empty) {
+            return;
+        }
 
         $callback($value);
 
-        if (isset($this->errors[$field])) $this->errors[$field] = $message;
+        if (isset($this->errors[$field])) {
+            $this->errors[$field] = $message;
+        }
     }
 
     private function empty(

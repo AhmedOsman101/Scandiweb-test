@@ -34,7 +34,9 @@ class Database
     }
 
 
-    protected function __clone() {}
+    protected function __clone()
+    {
+    }
 
     public static function getInstance(): self
     {

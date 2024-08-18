@@ -7,12 +7,16 @@ use Database\Database;
 abstract class Model
 {
     private static Database $db;
-    public const TABLE = "";
+    public const string TABLE = "";
 
     //* Singletons should not be cloned nor instantiated by client.
-    protected function __construct() {}
+    protected function __construct()
+    {
+    }
 
-    protected function __clone() {}
+    protected function __clone()
+    {
+    }
 
     public static function all(): array
     {

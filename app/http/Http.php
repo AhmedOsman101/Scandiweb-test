@@ -4,20 +4,20 @@ namespace App\Http;
 
 class Http
 {
-    public const OK = 200;
-    public const CREATED = 201;
-    public const NO_CONTENT = 204;
-    public const FOUND = 302;
-    public const BAD_REQUEST = 400;
-    public const UNAUTHORIZED = 401;
-    public const FORBIDDEN = 403;
-    public const NOT_FOUND = 404;
-    public const METHOD_NOT_ALLOWED = 405;
-    public const UNPROCESSABLE_CONTENT = 422;
-    public const INTERNAL_SERVER_ERROR = 500;
-    public const SERVICE_UNAVAILABLE = 503;
+    public const int OK = 200;
+    public const int CREATED = 201;
+    public const int NO_CONTENT = 204;
+    public const int FOUND = 302;
+    public const int BAD_REQUEST = 400;
+    public const int UNAUTHORIZED = 401;
+    public const int FORBIDDEN = 403;
+    public const int NOT_FOUND = 404;
+    public const int METHOD_NOT_ALLOWED = 405;
+    public const int UNPROCESSABLE_CONTENT = 422;
+    public const int INTERNAL_SERVER_ERROR = 500;
+    public const int SERVICE_UNAVAILABLE = 503;
 
-    public const STATUS_MESSAGES = [
+    public const array STATUS_MESSAGES = [
         self::OK                     => 'OK',
         self::CREATED                => 'Created',
         self::NO_CONTENT             => 'No Content',
@@ -38,7 +38,9 @@ class Http
 
     private static Client $client;
 
-    private function __construct() {}
+    private function __construct()
+    {
+    }
 
     private static function getClient(): Client
     {
@@ -63,12 +65,12 @@ class Http
         return static::getClient()->execute($method, $url, $options);
     }
 
-    public static function Get(string $url): Response
+    public static function get(string $url): Response
     {
         return static::request('GET', $url);
     }
 
-    public static function Post(string $url, array $data, bool $return = false): Response
+    public static function post(string $url, array $data, bool $return = false): Response
     {
         return static::request(
             'POST',
@@ -78,7 +80,7 @@ class Http
         );
     }
 
-    public static function Put(string $url, array $data, bool $return = false): Response
+    public static function put(string $url, array $data, bool $return = false): Response
     {
         return static::request(
             'PUT',
@@ -88,7 +90,7 @@ class Http
         );
     }
 
-    public static function Patch(string $url, array $data, bool $return = false): Response
+    public static function patch(string $url, array $data, bool $return = false): Response
     {
         return static::request(
             'PATCH',
@@ -98,7 +100,7 @@ class Http
         );
     }
 
-    public static function Delete(string $url): Response
+    public static function delete(string $url): Response
     {
         return static::request('DELETE', $url, return: false);
     }

@@ -17,7 +17,7 @@ class Flash implements SessionInterface
    *
    * @var string
    */
-  public const FLASH_KEY = "_flash";
+    public const string FLASH_KEY = "_flash";
 
   /**
    * Retrieve a flash message from the session.
@@ -26,10 +26,10 @@ class Flash implements SessionInterface
    * @param mixed $default The default value to return if the flash message does not exist.
    * @return mixed The flash message from the session or the default value.
    */
-  public static function get(string $key, mixed $default = null): mixed
-  {
-    return $_SESSION[self::FLASH_KEY][$key] ?? $default;
-  }
+    public static function get(string $key, mixed $default = null): mixed
+    {
+        return $_SESSION[self::FLASH_KEY][$key] ?? $default;
+    }
 
   /**
    * Set a flash message in the session.
@@ -38,10 +38,10 @@ class Flash implements SessionInterface
    * @param mixed $value The flash message value to store.
    * @return void
    */
-  public static function set(string $key, mixed $value): void
-  {
-    $_SESSION[self::FLASH_KEY][$key] = $value;
-  }
+    public static function set(string $key, mixed $value): void
+    {
+        $_SESSION[self::FLASH_KEY][$key] = $value;
+    }
 
   /**
    * Check if a flash message exists in the session.
@@ -49,18 +49,18 @@ class Flash implements SessionInterface
    * @param string $key The key for the flash message.
    * @return bool True if the flash message exists, false otherwise.
    */
-  public static function has(string $key): bool
-  {
-    return array_key_exists($key, $_SESSION[self::FLASH_KEY]);
-  }
+    public static function has(string $key): bool
+    {
+        return array_key_exists($key, $_SESSION[self::FLASH_KEY]);
+    }
 
   /**
    * Clear all flash messages from the session.
    *
    * @return void
    */
-  public static function flush(): void
-  {
-    $_SESSION[self::FLASH_KEY] = [];
-  }
+    public static function flush(): void
+    {
+        $_SESSION[self::FLASH_KEY] = [];
+    }
 }

@@ -17,12 +17,12 @@ class Response implements HttpResponseInterface
         ];
     }
 
-    public function Response(): object
+    public function response(): object
     {
         return $this->response;
     }
 
-    public static function Json(
+    public static function json(
         string $status = null,
         int $statusCode = null,
         array $data = null,
@@ -47,17 +47,17 @@ class Response implements HttpResponseInterface
         return json_encode($response);
     }
 
-    public function StatusCode(): int
+    public function statusCode(): int
     {
         return $this->response->statusCode;
     }
 
-    public function Status(): object
+    public function status(): object
     {
         return $this->response->status;
     }
 
-    public function Data(bool $json = false): object|string
+    public function data(bool $json = false): object|string
     {
         if ($json) {
             return json_encode($this->response->data);

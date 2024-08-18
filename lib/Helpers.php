@@ -14,9 +14,13 @@ class Helpers
     protected static Router $router;
 
     //* Singletons should not be cloned nor instantiated by client.
-    protected function __construct() {}
+    protected function __construct()
+    {
+    }
 
-    protected function __clone() {}
+    protected function __clone()
+    {
+    }
 
     /**
      * Dumps the provided data to the browser in a formatted way then kills the script execution.

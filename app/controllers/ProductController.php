@@ -21,50 +21,50 @@ class ProductController extends Controller
    *
    * @return mixed The rendered view for the 'index' template, which should display the list of products.
    */
-  public static function index()
-  {
+    public static function index()
+    {
 
-    $products = Product::all();
+        $products = Product::all();
 
-    // filter out null entries
-    $products = array_map(
-      fn($product) => array_filter(
-        $product,
-        fn($value) => $value !== null
-      ),
-      $products
-    );
+      // filter out null entries
+        $products = array_map(
+            fn($product) => array_filter(
+                $product,
+                fn($value) => $value !== null
+            ),
+            $products
+        );
 
-    $productConfigs = [
-      ProductType::BOOK->value => [
-        'label' => 'Weight',
-        'field' => 'weight',
-        'suffix' => "KG"
-      ],
-      ProductType::DVD->value => [
-        'label' => 'Size',
-        'field' => 'size',
-        'suffix' => "MB"
-      ],
-      ProductType::FURNITURE->value => [
-        'label' => 'Dimensions',
-        'field' => 'dimensions',
-        'suffix' => ""
-      ],
-    ];
+        $productConfigs = [
+        ProductType::BOOK->value => [
+        "label" => "Weight",
+        "field" => "weight",
+        "suffix" => "KG"
+        ],
+        ProductType::DVD->value => [
+        "label" => "Size",
+        "field" => "size",
+        "suffix" => "MB"
+        ],
+        ProductType::FURNITURE->value => [
+        "label" => "Dimensions",
+        "field" => "dimensions",
+        "suffix" => ""
+        ],
+        ];
 
 
-    $error = json_encode(Flash::get("error"));
+        $error = json_encode(Flash::get("error"));
 
-    return static::view(
-      'index',
-      compact(
-        "products",
-        "productConfigs",
-        "error"
-      )
-    );
-  }
+        return static::view(
+            "index",
+            compact(
+                "products",
+                "productConfigs",
+                "error"
+            )
+        );
+    }
 
   /**
    * Renders the view for creating a new product.
@@ -73,67 +73,67 @@ class ProductController extends Controller
    *
    * @return mixed The rendered view for the "add" template.
    */
-  public static function create()
-  {
-    $types = json_encode(Helpers::enumToAssocArray(ProductType::class));
+    public static function create()
+    {
+        $types = json_encode(Helpers::enumToAssocArray(ProductType::class));
 
-    return static::view(
-      view: 'add',
-      data: [
-        "types" => $types
-      ]
-    );
-  }
-
-  public static function store()
-  {
-    header("Content-Type: application/json");
-
-    $data = json_decode(file_get_contents('php://input'), true);
-
-    $form = new AddProductForm();
-
-    $form->validate($data);
-
-    if ($form->hasErrors()) {
-      echo Response::Json(
-        status: Http::STATUS_MESSAGES[Http::BAD_REQUEST],
-        statusCode: Http::BAD_REQUEST,
-        errors: $form->getErrors()
-      );
-      exit;
+        return static::view(
+            view: 'add',
+            data: [
+            "types" => $types
+            ]
+        );
     }
 
+    public static function store()
+    {
+        header("Content-Type: application/json");
 
-    try {
-      Product::create($data);
-      echo Response::Json(
-        status: Http::STATUS_MESSAGES[Http::CREATED],
-        statusCode: Http::CREATED,
-      );
-      exit;
+        $data = json_decode(file_get_contents('php://input'), true);
 
-      // Helpers::redirect("product.index");
-    } catch (PDOException $e) {
-      //* 23000 code means duplicated value in a unique field
-      if ($e->getCode() === "23000") {
-        echo Response::Json(
-          status: Http::STATUS_MESSAGES[Http::BAD_REQUEST],
-          statusCode: Http::BAD_REQUEST,
-          errors: [
-            "sku" => "This SKU is already taken"
-          ]
-        );
-      } else {
-        echo Response::Json(
-          status: Http::STATUS_MESSAGES[Http::BAD_REQUEST],
-          statusCode: Http::BAD_REQUEST,
-          errors: [$e->getMessage()]
-        );
-      }
-      exit;
+        $form = new AddProductForm();
+
+        $form->validate($data);
+
+        if ($form->hasErrors()) {
+            echo Response::json(
+                status: Http::STATUS_MESSAGES[Http::BAD_REQUEST],
+                statusCode: Http::BAD_REQUEST,
+                errors: $form->getErrors()
+            );
+            exit;
+        }
+
+
+        try {
+            Product::create($data);
+            echo Response::json(
+                status: Http::STATUS_MESSAGES[Http::CREATED],
+                statusCode: Http::CREATED,
+            );
+            exit;
+
+          // Helpers::redirect("product.index");
+        } catch (PDOException $e) {
+          //* 23000 code means duplicated value in a unique field
+            if ($e->getCode() === "23000") {
+                echo Response::json(
+                    status: Http::STATUS_MESSAGES[Http::BAD_REQUEST],
+                    statusCode: Http::BAD_REQUEST,
+                    errors: [
+                    "sku" => "This SKU is already taken"
+                    ]
+                );
+            } else {
+                echo Response::json(
+                    status: Http::STATUS_MESSAGES[Http::BAD_REQUEST],
+                    statusCode: Http::BAD_REQUEST,
+                    errors: [$e->getMessage()]
+                );
+            }
+            exit;
+        }
     }
-  }
 
   /**
    * Deletes one or more products based on the provided IDs.
@@ -144,33 +144,33 @@ class ProductController extends Controller
    * If the deletion is successful, it redirects the user to the "product.index" route.
    * If a PDOException occurs during the deletion, it outputs the error message.
    */
-  public static function destroy()
-  {
+    public static function destroy()
+    {
 
-    try {
-      // convert the json input to an assoc array
-      $ids = json_decode($_REQUEST["_ids"], true);
+        try {
+          // convert the json input to an assoc array
+            $ids = json_decode($_REQUEST["_ids"], true);
 
-      // check for empty inputs
-      if (empty($ids)) {
-        Flash::set('error', 'No products were selected.');
-        // if no ids provided do not try to delete, redirect.
-        Helpers::redirect('product.index');
-      }
+          // check for empty inputs
+            if (empty($ids)) {
+                Flash::set('error', 'No products were selected.');
+                // if no ids provided do not try to delete, redirect.
+                Helpers::redirect('product.index');
+            }
 
-      // delete the selected product
-      $query = Product::destroy($ids);
+          // delete the selected product
+            $query = Product::destroy($ids);
 
-      // if no products was deleted, return an error
-      if ($query->rowCount() === 0) {
-        Flash::set('error', 'No products found for the provided IDs.');
-      }
-    } catch (PDOException $error) {
-      // Handle PDO errors
-      Flash::set("error", "An error occurred while deleting products");
-    } finally {
-      // redirect back to home
-      Helpers::redirect('product.index');
+          // if no products was deleted, return an error
+            if ($query->rowCount() === 0) {
+                Flash::set('error', 'No products found for the provided IDs.');
+            }
+        } catch (PDOException $error) {
+          // Handle PDO errors
+            Flash::set("error", "An error occurred while deleting products");
+        } finally {
+          // redirect back to home
+            Helpers::redirect('product.index');
+        }
     }
-  }
 }
