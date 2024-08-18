@@ -24,10 +24,10 @@ class Validator
         int $max = PHP_INT_MAX,
         bool $optional = false
     ) {
-        $is_empty = $this->empty($field, $value, $optional);
+        $isEmpty = $this->empty($field, $value, $optional);
 
         // if the filed is optional and empty skip the validation
-        if ($is_empty) {
+        if ($isEmpty) {
             return;
         }
 
@@ -41,9 +41,10 @@ class Validator
             return $this->setError($field, "is required.");
         }
 
+        // Ensure the string length is within the specified range.
         $is_in_range =
             0 < $min    && // validate minimum is bigger than zero
-            $min < $max && // validate max is bigger than min
+            $min < $max && // validate maximum is bigger than min
             0 < $len    && // validate string isn't empty
             $this->between($field, $len, $min, $max); // validate the string between the requested range
 
@@ -74,9 +75,13 @@ class Validator
         if (!$is_in_range) {
             $this->errors[$field] = "$field must be between $min and $max";
 
+            // Adjust the error message when using default PHP_FLOAT_MIN or PHP_INT_MIN.
             if ($min === PHP_FLOAT_MIN || $min === PHP_INT_MIN) {
                 $this->errors[$field] = "$field must not be more than $max";
-            } elseif ($max === PHP_FLOAT_MAX || $max === PHP_INT_MAX) {
+            }
+
+            // Adjust the error message when using default PHP_FLOAT_MAX or PHP_INT_MAX.
+            elseif ($max === PHP_FLOAT_MAX || $max === PHP_INT_MAX) {
                 $this->errors[$field] = "$field must be at least $min";
             }
         }
@@ -94,8 +99,7 @@ class Validator
      * @param float $min The minimum value (inclusive). Defaults to negative infinity.
      * @param float $max The maximum value (inclusive). Defaults to positive infinity.
      * @param bool $optional Whether the field is optional (default is false).
-     * @return void True if the value is valid, false otherwise. This method will
-     * add an error to the $errors array if the value is invalid.
+     * @return void Adds an error to the $errors array if the value is invalid.
      */
     public function float(
         string $field,
@@ -105,16 +109,17 @@ class Validator
         bool $optional = false
     ) {
 
-        $is_empty = $this->empty($field, $value, $optional);
+        $isEmpty = $this->empty($field, $value, $optional);
 
         // if the filed is optional and empty skip the validation
-        if ($is_empty) {
+        if ($isEmpty) {
             return;
         }
 
-        $is_float = filter_var($value, FILTER_VALIDATE_FLOAT) && true;
+        // Validate if the value is a float using filter_var.
+        $isFloat = filter_var($value, FILTER_VALIDATE_FLOAT) && true;
 
-        if (!$is_float) {
+        if (!$isFloat) {
             return $this->setError($field, "must be a decimal value.");
         }
 
@@ -143,31 +148,32 @@ class Validator
         bool $optional = false
     ) {
 
-        $is_empty = $this->empty($field, $value, $optional);
+        $isEmpty = $this->empty($field, $value, $optional);
 
-        // if the filed is optional and empty skip the validation
-        if ($is_empty) {
+        // If the filed is optional and empty skip the validation
+        if ($isEmpty) {
             return;
         }
 
-        $is_int = filter_var($value, FILTER_VALIDATE_INT) && true;
+        // Validate if the value is an integer using filter_var.
+        $isInteger = filter_var($value, FILTER_VALIDATE_INT) && true;
 
-        if (!$is_int) {
-            // set the an error if not a integer
+        if (!$isInteger) {
+            // Set an error if the value is not an integer.
             return $this->setError($field, "must be an integer value.");
         }
 
-        // check if it's between range, set errors if any and return
+        // Check if the value is within the specified range and set errors if any.
         $this->between($field, $value, $min, $max);
     }
 
     public function inEnum(string $field, mixed $value, string $enum): void
     {
-        $is_valid = $enum::tryFrom($value);
-        $is_valid = call_user_func([$enum, "tryFrom"], $value);
+        // Validate the value against the enum cases.
+        $isValid = $enum::tryFrom($value);
 
-        if (!$is_valid) {
-            $validValues = implode(', ', array_map(fn($case) => $case->value, call_user_func([$enum, "cases"])));
+        if (!$isValid) {
+            $validValues = implode(', ', array_map(fn($case) => $case->value, $enum::cases()));
             $this->errors[$field] = "Invalid value for $field. The value must be one of the following: $validValues.";
         }
     }
@@ -179,13 +185,14 @@ class Validator
         callable $callback,
         bool $optional = false
     ): void {
-        $is_empty = $this->empty($field, $value, $optional);
+        $isEmpty = $this->empty($field, $value, $optional);
 
         // if the filed is optional and empty skip the validation
-        if ($is_empty) {
+        if ($isEmpty) {
             return;
         }
 
+        // Execute the custom validation callback.
         $callback($value);
 
         if (isset($this->errors[$field])) {
@@ -198,30 +205,51 @@ class Validator
         mixed $value,
         bool $optional = false
     ): bool {
-        $is_empty = empty($value);
+        $isEmpty = empty($value);
 
-        if (!$optional && $is_empty) {
+        if (!$optional && $isEmpty) {
             $this->setError($field, "is required");
         }
 
-        return $is_empty;
+        return $isEmpty;
     }
 
+    /**
+     * Retrieves the validation errors.
+     *
+     * @return array The array of validation errors.
+     */
     public function getErrors(): array
     {
         return $this->errors;
     }
 
-    public function hasErrors(): bool
-    {
-        return (bool) sizeOf($this->errors);
-    }
-
+    /**
+     * Retrieves the value of a validation error.
+     *
+     * @return string|null The validation error if found.
+     */
     public function getError(string $field): string|null
     {
         return $this->errors[$field] ?? null;
     }
 
+    /**
+     * Checks if there are any validation errors.
+     *
+     * @return bool Returns true if there are no validation errors, otherwise false.
+     */
+    public function hasErrors(): bool
+    {
+        return !empty($this->errors);
+    }
+
+    /**
+     * Sets a validation error message for a field.
+     *
+     * @param string $field The name of the field that failed validation.
+     * @param string $message The error message.
+     */
     private function setError(string $field, string $message): void
     {
         $this->errors[$field] = ucfirst($field) . " $message";
