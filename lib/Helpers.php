@@ -108,4 +108,21 @@ class Helpers
 
         return $assocArray;
     }
+
+    public static function strLimit(string $string, int $limit): string
+    {
+        if ($limit < strlen($string)) {
+            return str_pad(
+                substr(
+                    $string,
+                    offset: 0,
+                    length: $limit - 3
+                ),
+                length: $limit,
+                pad_string: "..."
+            );
+        }
+
+        return $string;
+    }
 }
