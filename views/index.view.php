@@ -15,7 +15,7 @@ empty($productsCount) ?: $title .= " ($productsCount)";
 
 <head>
   <title>
-    <?= $title ?>
+    Product List
   </title>
 
   <meta charset="utf-8" />

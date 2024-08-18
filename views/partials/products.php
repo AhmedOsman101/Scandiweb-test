@@ -27,7 +27,7 @@ use Lib\Helpers;
       </p>
 
       <p class="hidden lg:block">
-        <?= Helpers::clean(number_format($product['price'], 2)) ?> $
+        $<?= Helpers::clean(number_format($product['price'], 2)) ?>
       </p>
 
       <!-- smaller screens -->
