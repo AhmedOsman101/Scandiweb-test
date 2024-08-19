@@ -5,6 +5,8 @@ use Lib\Helpers;
 $productsCount = count($products);
 
 $title = "Product List";
+
+//? The Elvis operator `?:` returns the value on its right if the left value is falsy.
 empty($productsCount) ?: $title .= " ($productsCount)";
 ?>
 

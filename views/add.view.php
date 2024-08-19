@@ -219,7 +219,7 @@ $homeRoute = Helpers::route('product.index');
             </div>
             <span
               class="text-sm text-red-500 error mt-4 -mb-4"
-              x-show="errors?.length || errors?.height || errors?.width || errors?.dimensions">
+              x-show="errors?.dimensions">
               Please provide valid dimensions for the furniture in the form of height, width and length in Centimeters
             </span>
           </label>
