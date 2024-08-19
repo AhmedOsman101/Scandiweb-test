@@ -8,6 +8,7 @@ use App\Http\Http;
 use App\Http\Response;
 use App\Models\Product;
 use App\Sessions\Flash;
+use Database\MysqlExceptionHandler;
 use Lib\Helpers;
 use PDOException;
 
@@ -27,7 +28,7 @@ class ProductController extends Controller
 
         $products = Product::all();
 
-        // filter out null entries
+        // filter out null entries to only keep keys that has values
         $products = array_map(
             fn($product) => array_filter(
                 $product,
@@ -119,40 +120,39 @@ class ProductController extends Controller
         $form->validate($data);
 
         if ($form->hasErrors()) {
-            echo Response::json(
+            Response::json(
                 status: Http::STATUS_MESSAGES[Http::BAD_REQUEST],
                 statusCode: Http::BAD_REQUEST,
                 errors: $form->getErrors()
             );
-            exit;
         }
 
 
         try {
-            Product::create($data);
-            echo Response::json(
-                status: Http::STATUS_MESSAGES[Http::CREATED],
-                statusCode: Http::CREATED
-            );
-            exit;
-        } catch (PDOException $e) {
-            //* 23000 code means duplicated value in a unique field
-            if ($e->getCode() === "23000") {
-                echo Response::json(
-                    status: Http::STATUS_MESSAGES[Http::BAD_REQUEST],
-                    statusCode: Http::BAD_REQUEST,
-                    errors: [
-                        "sku" => "This SKU is already taken",
-                    ],
-                );
-            } else {
-                echo Response::json(
-                    status: Http::STATUS_MESSAGES[Http::BAD_REQUEST],
-                    statusCode: Http::BAD_REQUEST,
-                    errors: [$e->getMessage()],
+            $product = Product::where("sku", $data['sku']);
+
+            if (empty($product)) {
+                Response::json(
+                    status: Http::STATUS_MESSAGES[Http::CREATED],
+                    statusCode: Http::CREATED
                 );
             }
-            exit;
+
+            Response::json(
+                status: Http::STATUS_MESSAGES[Http::BAD_REQUEST],
+                statusCode: Http::BAD_REQUEST,
+                errors: [
+                    "sku" => "This SKU is already taken",
+                ],
+            );
+        } catch (PDOException $e) {
+            $error = MysqlExceptionHandler::handle($e);
+
+            Response::json(
+                status: Http::STATUS_MESSAGES[Http::INTERNAL_SERVER_ERROR],
+                statusCode: Http::INTERNAL_SERVER_ERROR,
+                errors: $error,
+            );
         }
     }
 
@@ -164,34 +164,30 @@ class ProductController extends Controller
      * If no products were deleted, it returns a "not found" error.
      * If the deletion is successful, it redirects the user to the "product.index" route.
      * If a PDOException occurs during the deletion, it outputs the error message.
+     *
+     * @throws PDOException If a database error occurs during deletion
      */
     public static function destroy()
     {
 
         try {
-            // convert the json input to an assoc array
             $ids = json_decode($_REQUEST["_ids"], true);
 
-            // check for empty inputs
             if (empty($ids)) {
                 Flash::set('error', 'No products were selected.');
-                // if no ids provided do not try to delete, redirect.
                 Helpers::redirect('product.index');
             }
 
-            // delete the selected product
             $query = Product::destroy($ids);
 
-            // if no products was deleted, return an error
+            //? this handles when two users attempt to delete the same product at the same time.
             if ($query->rowCount() === 0) {
-                Flash::set('error', 'No products found for the provided IDs.');
+                Flash::set("error", "No products found for the provided IDs.");
             }
         } catch (PDOException $error) {
-            // Handle PDO errors
             Flash::set("error", "An error occurred while deleting products");
         } finally {
-            // redirect back to home
-            Helpers::redirect('product.index');
+            Helpers::redirect("product.index");
         }
     }
 }
