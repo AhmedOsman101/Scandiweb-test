@@ -2,6 +2,8 @@
 
 namespace Lib;
 
+use RuntimeException;
+
 class Env
 {
   /**
@@ -9,40 +11,39 @@ class Env
    *
    * @param string $path Path to the .env file.
    * @return void
-   * @throws \RuntimeException If the .env file cannot be found or read.
+   * @throws RuntimeException If the .env file cannot be found or read.
    */
     public static function load(string $path)
     {
         try {
-          // Attempt to read the .env file, ignoring empty lines
+            // Attempt to read the .env file, ignoring empty lines
             $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
             if ($lines === false) {
-                throw new \RuntimeException("Failed to read the .env file at $path.");
+                throw new RuntimeException("Failed to read the .env file at $path.");
             }
 
             foreach ($lines as $line) {
-              // ignore comments
+                // ignore comments
                 if (strpos(trim($line), '#') === 0) {
                     continue;
                 }
 
-              // separate key value pairs using '='
-              // then assigning the keys to name and values to value
+                // separate key value pairs using '='
                 [$key, $value] = explode('=', $line, 2);
 
-              // trims whitespaces and removing quotes (single & double)
+                // trims whitespaces and removing quotes (single & double)
                 $key = str_replace(['"', "'"], '', trim($key));
                 $value = str_replace(['"', "'"], '', trim($value));
 
-              // if this variable does not exist in neither the $_SERVER nor the $_ENV superglobals
-              // then append it to the $_ENV and $_SERVER
+                // if this variable does not exist in neither the $_SERVER nor the $_ENV superglobals
+                // then append it to the $_ENV and $_SERVER
                 if (!array_key_exists($key, $_SERVER) && !array_key_exists($key, $_ENV)) {
                     static::set($key, $value);
                 }
             }
-        } catch (\Exception $e) {
-            throw new \RuntimeException("Error loading .env file: " . $e->getMessage());
+        } catch (\Throwable $e) {
+            throw new RuntimeException("Error loading .env file: " . $e->getMessage());
         }
     }
 
