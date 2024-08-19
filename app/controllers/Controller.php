@@ -7,21 +7,28 @@ use Lib\Helpers;
 abstract class Controller
 {
   /**
-   * Retrieve all resources
+   * Display a listing of the resource.
    */
     public static function index()
     {
     }
 
   /**
-   * Create new resources
+   * Show the form for creating a new resource.
+   */
+    public static function create()
+    {
+    }
+
+  /**
+   * Store a newly created resource in storage.
    */
     public static function store()
     {
     }
 
   /**
-   * Delete resources
+   * Remove the specified resource from storage.
    */
     public static function destroy()
     {
