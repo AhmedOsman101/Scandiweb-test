@@ -43,21 +43,21 @@ class Response
     }
 
     /**
-     * Creates a JSON-encoded response string.
+     * Creates and echos a JSON-encoded response string.
      *
      * @param string|null $status The status message to include in the response.
      * @param int|null $statusCode The HTTP status code to include in the response.
      * @param array|null $data The data to include in the response.
      * @param array|null $errors Optional errors to include in the response.
      *
-     * @return string The JSON-encoded response string.
+     * @return void Exits the script after execution.
      */
     public static function json(
         string $status = null,
         int $statusCode = null,
         array $data = null,
-        array $errors = null
-    ): string {
+        array $errors = null,
+    ): void {
         $response = compact(
             "status",
             "statusCode",
@@ -72,9 +72,11 @@ class Response
             }
         }
 
-        $statusCode !== null ? http_response_code($statusCode) : null;
+        //? The Elvis operator `?:` returns the value on its right if the left value is falsy.
+        $statusCode === null ?: http_response_code($statusCode);
 
-        return json_encode($response);
+        echo json_encode($response);
+        exit;
     }
 
     /**
