@@ -24,7 +24,7 @@ Alpine.data("homeStore", () => ({
     const index = this.selected.findIndex((item) => item === id);
     // if already selected remove it
     if (index !== -1) this.selected.splice(index, 1);
-    // else add it
+
     else this.selected.push(id);
   },
 }));
@@ -63,7 +63,6 @@ Alpine.data("formStore", () => ({
     const data = Object.fromEntries(new FormData(form));
     const errors = {};
     for (const [key, field] of Object.entries(data)) {
-      // Empty fields validation
       if (!field.trim()) {
         errors[key] = `${key} field is required`;
       }
@@ -114,7 +113,7 @@ Alpine.data("formStore", () => ({
 Alpine.data("flashError", () => ({
   showFlash: false,
   error, // passed from PHP,
-  flashTimeout: null, // Store the timeout ID here
+  flashTimeout: null, // Holds the timeout ID here
 
   /**
    * Displays the flash message.
