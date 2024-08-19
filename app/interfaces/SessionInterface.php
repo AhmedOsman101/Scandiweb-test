@@ -41,5 +41,5 @@ interface SessionInterface
    *
    * @return void
    */
-    public static function flush(): void;
+    public static function clear(): void;
 }

@@ -52,7 +52,7 @@ class Session implements SessionInterface
    *
    * @return void
    */
-    public static function flush(): void
+    public static function clear(): void
     {
         $_SESSION = [];
     }
@@ -66,16 +66,14 @@ class Session implements SessionInterface
    */
     public static function destroy(): void
     {
-      // Clear all session's data
-        static::flush();
+        // Clear all session's data
+        static::clear();
 
-      // End the current session
         session_destroy();
 
-      // Retrieve current session cookie parameters
         $params = session_get_cookie_params();
 
-      // Remove the session cookie by setting its expiration time in the past
+        // Remove the session cookie by setting its expiration time in the past
         setcookie(
             name: "PHPSESSID",                  // Cookie name
             value: "",                          // Cookie value (empty to remove the cookie)

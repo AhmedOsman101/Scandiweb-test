@@ -59,7 +59,7 @@ class Flash implements SessionInterface
    *
    * @return void
    */
-    public static function flush(): void
+    public static function clear(): void
     {
         $_SESSION[self::FLASH_KEY] = [];
     }
