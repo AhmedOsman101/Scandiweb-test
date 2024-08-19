@@ -78,7 +78,7 @@ class Helpers
         }
 
         $uri = static::route($to);
-        http_response_code(Http::FOUND); // If the route is found, set HTTP response to 302.
+        http_response_code(Http::FOUND);
         header("Location: $uri");
         exit;
     }
@@ -130,7 +130,7 @@ class Helpers
         $assocArray = [];
 
         foreach ($reflection->getCases() as $case) {
-            $assocArray[$case->getName()] = $case->getValue(); // Used getName and getValue methods to populate the associative array.
+            $assocArray[$case->getName()] = $case->getValue();
         }
 
         return $assocArray;
@@ -145,9 +145,8 @@ class Helpers
      */
     public static function strLimit(string $string, int $limit): string
     {
-        // Changed strlen to mb_strlen for multi-byte string support.
+        // Used mb_strlen and mb_substr for multi-byte string support.
         if (mb_strlen($string) > $limit) {
-            // Changed substr to mb_substr to properly handle multibyte strings.
             return mb_substr($string, 0, $limit - 3) . '...';
         }
 
