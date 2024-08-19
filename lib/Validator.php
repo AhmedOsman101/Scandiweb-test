@@ -22,11 +22,11 @@ class Validator
         mixed $value,
         int $min = 1,
         int $max = PHP_INT_MAX,
-        bool $optional = false
+        bool $optional = false,
     ) {
-        $isEmpty = $this->empty($field, $value, $optional);
+        $value = trim($value);
+        $isEmpty = $this->optional($field, $value, $optional);
 
-        // if the filed is optional and empty skip the validation
         if ($isEmpty) {
             return;
         }
@@ -35,18 +35,13 @@ class Validator
             return $this->setError($field, "must be a string.");
         }
 
-        $len = strlen(trim($value));
+        $len = strlen($value);
 
-        if ($len === 0 && !$optional) {
-            return $this->setError($field, "is required.");
-        }
-
-        // Ensure the string length is within the specified range.
         $is_in_range =
-            0 < $min    && // validate minimum is bigger than zero
-            $min < $max && // validate maximum is bigger than min
-            0 < $len    && // validate string isn't empty
-            $this->between($field, $len, $min, $max); // validate the string between the requested range
+            0 < $min     &&  // validate minimum
+            $min <= $max &&  // validate maximum
+            0 < $len     &&
+            $this->between($field, $len, $min, $max);
 
         if (!$is_in_range) {
             $this->errors[$field] .= " characters long.";
@@ -106,24 +101,21 @@ class Validator
         mixed $value,
         float $min = PHP_FLOAT_MIN,
         float $max = PHP_FLOAT_MAX,
-        bool $optional = false
+        bool $optional = false,
     ) {
 
-        $isEmpty = $this->empty($field, $value, $optional);
+        $isOptional = $this->optional($field, $value, $optional);
 
-        // if the filed is optional and empty skip the validation
-        if ($isEmpty) {
+        if ($isOptional) {
             return;
         }
 
-        // Validate if the value is a float using filter_var.
         $isFloat = filter_var($value, FILTER_VALIDATE_FLOAT) && true;
 
         if (!$isFloat) {
             return $this->setError($field, "must be a decimal value.");
         }
 
-        // check if it's between range and set errors if any.
         $this->between($field, $value, $min, $max);
     }
 
@@ -145,28 +137,33 @@ class Validator
         mixed $value,
         int $min = PHP_INT_MIN,
         int $max = PHP_INT_MAX,
-        bool $optional = false
+        bool $optional = false,
     ) {
 
-        $isEmpty = $this->empty($field, $value, $optional);
+        $isOptional = $this->optional($field, $value, $optional);
 
-        // If the filed is optional and empty skip the validation
-        if ($isEmpty) {
+        if ($isOptional) {
             return;
         }
 
-        // Validate if the value is an integer using filter_var.
         $isInteger = filter_var($value, FILTER_VALIDATE_INT) && true;
 
         if (!$isInteger) {
-            // Set an error if the value is not an integer.
             return $this->setError($field, "must be an integer value.");
         }
 
-        // Check if the value is within the specified range and set errors if any.
         $this->between($field, $value, $min, $max);
     }
 
+    /**
+     * Validates whether the given value is one of the allowed enum cases.
+     *
+     * @param string $field The name of the field being validated.
+     * @param mixed $value The value to validate against the enum.
+     * @param string $enum The enum class to validate against.
+     *
+     * @return void
+     */
     public function inEnum(string $field, mixed $value, string $enum): void
     {
         // Validate the value against the enum cases.
@@ -178,32 +175,52 @@ class Validator
         }
     }
 
+    /**
+     * Performs custom validation using a callback function.
+     *
+     * @param string $field The name of the field being validated.
+     * @param mixed $value The value to validate.
+     * @param string $message The error message to set if validation fails.
+     * @param callable $callback A callback function that performs the custom validation.
+     * @param bool $optional Whether the field is optional or not.
+     *
+     * @return void
+     */
     public function custom(
         string $field,
         mixed $value,
         string $message,
         callable $callback,
-        bool $optional = false
+        bool $optional = false,
     ): void {
-        $isEmpty = $this->empty($field, $value, $optional);
+        $isOptional = $this->optional($field, $value, $optional);
 
-        // if the filed is optional and empty skip the validation
-        if ($isEmpty) {
+        if ($isOptional) {
             return;
         }
 
-        // Execute the custom validation callback.
-        $callback($value);
+        // Execute the custom validation callback and retrieve its value,
+        // if the function was void assume its false.
+        $result = $callback($value) ?? false;
 
-        if (isset($this->errors[$field])) {
+        if (isset($this->errors[$field]) || $result === false) {
             $this->errors[$field] = $message;
         }
     }
 
-    private function empty(
+    /**
+     * Checks if a value is empty and whether the field is required.
+     *
+     * @param string $field The name of the field being checked.
+     * @param mixed $value The value to check.
+     * @param bool $optional Whether the field is optional or not.
+     *
+     * @return bool Returns true if the value is empty, false otherwise.
+     */
+    private function optional(
         string $field,
         mixed $value,
-        bool $optional = false
+        bool $optional = false,
     ): bool {
         $isEmpty = empty($value);
 
