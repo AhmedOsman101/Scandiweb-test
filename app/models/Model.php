@@ -53,9 +53,12 @@ abstract class Model
      */
     public static function find($id): array|null
     {
-        $sql = "SELECT * FROM " . static::TABLE . " WHERE id = :id";
+        $result = static::where(
+            column: "id",
+            value: $id,
+            operator: "="
+        );
 
-        $result = static::DB()->readQuery($sql, compact($id));
         return $result[0] ?? null;
     }
 
@@ -69,7 +72,7 @@ abstract class Model
      */
     public static function where($column, $value, $operator = '='): array|null
     {
-        $sql = "SELECT * FROM " . static::TABLE . " WHERE $column $operator = ?";
+        $sql = "SELECT * FROM " . static::TABLE . " WHERE $column $operator ?";
 
         $result = static::DB()->readQuery($sql, [$value]);
         return $result ?? null;
