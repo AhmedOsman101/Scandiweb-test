@@ -132,6 +132,8 @@ class ProductController extends Controller
             $product = Product::where("sku", $data['sku']);
 
             if (empty($product)) {
+                Product::create($data);
+
                 Response::json(
                     status: Http::STATUS_MESSAGES[Http::CREATED],
                     statusCode: Http::CREATED
