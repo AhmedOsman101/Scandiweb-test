@@ -89,16 +89,7 @@ class AddProductForm implements FormInterface
             field: "dimensions",
             value: $dimensions ?? null,
             message: "Please provide valid dimensions for the furniture in the form of height, width and length in Centimeters",
-            callback: function ($input) {
-                $values = explode("x", $input);
-                foreach ($values as $value) {
-                    $this->validator->int(
-                        field: "dimensions",
-                        value: $value,
-                        min: 1
-                    );
-                }
-            },
+            callback: fn($input) => (bool) preg_match("/^\d+x\d+x\d+$/", $input),
             optional: !isset($dimensions)
         );
     }
