@@ -125,12 +125,13 @@ class Router
    */
     public function watch()
     {
-      // Extract the current URI
+
         $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 
-      // Current request method is determined by a hidden input
-      // with the name _method or the request method header
-        $requestMethod = $_POST["_method"] ?? $_SERVER['REQUEST_METHOD'];
+
+      // Current request method is determined by a hidden input named `_method` or the request method header
+
+        $requestMethod = $_REQUEST["_method"] ?? $_SERVER['REQUEST_METHOD'];
 
         foreach ($this->routes as $route) {
             if ($route['uri'] === $uri && $route['method'] === $requestMethod) {
@@ -138,7 +139,6 @@ class Router
             }
         }
 
-      // No route matched, abort with 404 status code
         return static::abort();
     }
 
