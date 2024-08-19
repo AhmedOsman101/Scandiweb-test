@@ -4,7 +4,6 @@ use App\Controllers\ProductController;
 use App\Router\Router;
 use Lib\Helpers;
 
-// create a new router instance
 $router = new Router();
 
 $router->get(
@@ -34,5 +33,4 @@ $router->delete(
 // register the router to the Helpers class
 Helpers::setRouter($router);
 
-// listen for routes
 $router->watch();
