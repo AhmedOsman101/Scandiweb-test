@@ -1,7 +1,5 @@
 # Scandiweb Test
----
-title: Scandiweb Test
----
+
 ## Overview
 
 This project is a part of Scandiweb Junior Developer Test Assignment.
