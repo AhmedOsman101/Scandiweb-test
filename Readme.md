@@ -8,45 +8,7 @@ This project is a part of Scandiweb Junior Developer Test Assignment.
 
 This is a fullstack web application created using PHP for both backend and frontend with Alpine.js for frontend reactivity.
 
-## Installation
 
-Follow these steps to set up and run the project:
-
-1. **Install Node.js dependencies**:
-   - Using `pnpm` (recommended):
-     ```bash
-     pnpm install
-```
-
-   - Alternatively, if you're using `npm`:
-      ```bash
-     npm install
-```
-
-2. **Install PHP dependencies**:
-   - Run the following command to install the required PHP dependencies and generate autoload files:
-     ```bash
-     composer install
-```
-
-3. **Run the development server**:
-   - Start the PHP development server:
-      ```bash
-     php -S localhost:8000 -t public
-```
-
-   - In a separate terminal, start the watcher and build process for JavaScript and CSS assets:
-     - Using `pnpm`:
-       
-```bash
-       pnpm serve
-```
-
-     - Alternatively, if you're using `npm`:
-       
-```bash
-       npm run serve
-```
 
 ## Functionality
 
