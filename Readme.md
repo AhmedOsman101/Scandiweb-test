@@ -14,28 +14,24 @@ Follow these steps to set up and run the project:
 
 1. **Install Node.js dependencies**:
    - Using `pnpm` (recommended):
-     
-```bash
+     ```bash
      pnpm install
 ```
 
    - Alternatively, if you're using `npm`:
-
-```bash
+      ```bash
      npm install
 ```
 
 2. **Install PHP dependencies**:
    - Run the following command to install the required PHP dependencies and generate autoload files:
-     
-```bash
+     ```bash
      composer install
 ```
 
 3. **Run the development server**:
    - Start the PHP development server:
-
-```bash
+      ```bash
      php -S localhost:8000 -t public
 ```
 
