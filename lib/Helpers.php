@@ -26,18 +26,6 @@ class Helpers
     }
 
     /**
-     * Dumps the provided data to the browser in a formatted way and terminates the script execution.
-     *
-     * @param mixed ...$data The data to be dumped.
-     * @return void
-     */
-    public static function dd(...$data): void
-    {
-        static::dump(...$data);
-        die;
-    }
-
-    /**
      * Dumps the provided data to the browser in a formatted way.
      *
      * @param mixed ...$data The data to be dumped.
@@ -50,6 +38,18 @@ class Helpers
             var_dump($item);
             echo "</pre>";
         }
+    }
+
+   /**
+     * Dumps the provided data to the browser in a formatted way and terminates the script execution.
+     *
+     * @param mixed ...$data The data to be dumped.
+     * @return void
+     */
+    public static function dd(...$data): void
+    {
+        static::dump(...$data);
+        die;
     }
 
     /**
