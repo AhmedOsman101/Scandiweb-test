@@ -129,8 +129,7 @@ class Router
         $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 
 
-      // Current request method is determined by a hidden input named `_method` or the request method header
-
+        // Current request method is determined by a hidden input named `_method` or the request method header
         $requestMethod = $_REQUEST["_method"] ?? $_SERVER['REQUEST_METHOD'];
 
         foreach ($this->routes as $route) {
