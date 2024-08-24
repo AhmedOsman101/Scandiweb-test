@@ -56,7 +56,7 @@ class Env
    */
     public static function get(string $key, mixed $default = null): mixed
     {
-        return $_ENV[$key] ?? $_SERVER[$default] ?? $default;
+        return $_ENV[$key] ?? $_SERVER[$key] ?? $default;
     }
 
   /**
