@@ -22,7 +22,7 @@ class MysqlExceptionHandler
         1136 => [self::class, 'handleInvalidColumnsCount'],
         1146 => [self::class, 'handleNoTable'],
         1211 => [self::class, 'handleInvalidCollation'],
-        1265 => [self::class, 'handleInvalidOutOfRange'],
+        1265 => [self::class, 'handleOutOfRange'],
         1366 => [self::class, 'handleInvalidDataType'],
         1406 => [self::class, 'handleLongData'],
     ];
@@ -133,7 +133,7 @@ class MysqlExceptionHandler
    * @param array $error The error info array from the PDOException.
    * @return array<string, string> The generated error message.
    */
-    protected static function handleInvalidOutOfRange(array $error)
+    protected static function handleOutOfRange(array $error)
     {
         $column = static::findColumnName($error[2]);
 
