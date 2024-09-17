@@ -104,13 +104,8 @@ class ProductController extends Controller
         $data = json_decode(file_get_contents('php://input'), true);
 
         $data = array_map(
-            function ($item) {
-                if (is_numeric($item)) {
-                    return round($item, 2);
-                }
-                return $item;
-            },
-            $data
+          fn($item) => is_numeric($item) ? round($item, 2) : $item,
+          $data
         );
 
         $form = new AddProductForm();
