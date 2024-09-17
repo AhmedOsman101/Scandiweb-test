@@ -59,8 +59,8 @@ class ProductController extends Controller
         $error = json_encode(Flash::get("error"));
 
         return static::view(
-            "index",
-            compact(
+            view: "index",
+            data: compact(
                 "products",
                 "productConfigs",
                 "error",
@@ -82,9 +82,7 @@ class ProductController extends Controller
 
         return static::view(
             view: 'add',
-            data: [
-                "types" => $types,
-            ]
+            data: compact("types")
         );
     }
 
