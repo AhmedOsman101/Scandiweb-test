@@ -26,13 +26,9 @@ abstract class Model
     public const string TABLE = "";
 
     //* Singletons should not be cloned nor instantiated by client.
-    protected function __construct()
-    {
-    }
+    protected function __construct() {}
 
-    protected function __clone()
-    {
-    }
+    protected function __clone() {}
 
     /**
      * Retrieves all records from the database table associated with the model.
