@@ -1,25 +1,28 @@
 {
-	"name": "othman/scandiweb-test",
-	"autoload": {
-		"psr-4": {
-			"App\\": "app/",
-			"Lib\\": "lib/",
-			"Database\\": "database/",
-			"App\\Controllers\\": "app/controllers/",
-			"App\\Models\\": "app/models/",
-			"App\\Router\\": "app/router/",
-			"App\\Interfaces\\": "app/interfaces/",
-			"App\\Enums\\": "app/enums/",
-			"App\\Sessions\\": "app/sessions/",
-			"App\\Forms\\": "app/forms/",
-			"App\\Http\\": "app/http/",
-			"App\\Http\\Middleware\\": "app/http/middleware/"
-		}
-	},
-	"authors": [
-		{
-			"name": "AhmadOthman",
-			"email": "trollingosman101@outlook.com"
-		}
-	]
+  "name": "othman/scandiweb-test",
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Lib\\": "lib/",
+      "Database\\": "database/",
+      "App\\Controllers\\": "app/controllers/",
+      "App\\Models\\": "app/models/",
+      "App\\Router\\": "app/router/",
+      "App\\Interfaces\\": "app/interfaces/",
+      "App\\Enums\\": "app/enums/",
+      "App\\Sessions\\": "app/sessions/",
+      "App\\Forms\\": "app/forms/",
+      "App\\Http\\": "app/http/",
+      "App\\Http\\Middleware\\": "app/http/middleware/"
+    }
+  },
+  "require": {
+    "php": "^8.4"
+  },
+  "authors": [
+    {
+      "name": "AhmadOthman",
+      "email": "trollingosman101@outlook.com"
+    }
+  ]
 }
