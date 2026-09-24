@@ -17,12 +17,20 @@
     }
   },
   "require": {
-    "php": "^8.4"
+    "php": "~8.3"
   },
   "authors": [
     {
       "name": "AhmadOthman",
-      "email": "trollingosman101@outlook.com"
+      "email": "ahmad.ali.othman@outlook.com"
     }
-  ]
+  ],
+  "scripts": {
+    "lint": [
+      "phpcs --standard=/home/othman/.config/php-codesniffer/ruleset.xml ."
+    ],
+    "fix": [
+      "phpcbf --standard=/home/othman/.config/php-codesniffer/ruleset.xml ."
+    ]
+  }
 }
