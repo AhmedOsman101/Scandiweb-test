@@ -125,11 +125,11 @@ Alpine.data("flashError", () => ({
   showFlashMessage() {
     if (this.error) {
       /*
-            ? Added a delay of 1ms before setting 'showFlash' to true.
-            ? This delay allows the code to mimic the behavior of a value change on the client side,
-            ? rather than immediately applying a value that was already true from the server response.
-            ? Without this delay, the flash message would pop up abruptly, skipping the intended transition effect.
-            */
+      ? Added a delay of 1ms before setting 'showFlash' to true.
+      ? This delay allows the code to mimic the behavior of a value change on the client side,
+      ? rather than immediately applying a value that was already true from the server response.
+      ? Without this delay, the flash message would pop up abruptly, skipping the intended transition effect.
+      */
       setTimeout(() => (this.showFlash = true), 1); // Show after 1ms
 
       // Set the timeout to automatically hide the flash message after 3.5 seconds

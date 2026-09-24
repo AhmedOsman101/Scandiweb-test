@@ -12,32 +12,41 @@ This is a fullstack web application created using PHP for both backend and front
 
 Follow these steps to set up and run the project:
 
-Install Node.js dependencies. Using `pnpm` (recommended):  
+Install Node.js dependencies. Using `pnpm` (recommended):
+
 ```bash
 pnpm install
-```  
-Alternatively, if you're using `npm`:  
+```
+
+Alternatively, if you're using `npm`:
+
 ```bash
 npm install
-```  
+```
 
-Install PHP dependencies. Run the following command to install the required PHP dependencies and generate autoload files:  
+Install PHP dependencies. Run the following command to install the required PHP dependencies and generate autoload files:
+
 ```bash
 composer install
-```  
+```
 
-Run the development server. Start the PHP development server:  
+Run the development server. Start the PHP development server:
+
 ```bash
 php -S localhost:8000 -t public
-```  
-In a separate terminal, start the watcher and build process for JavaScript and CSS assets. Using `pnpm`:  
+```
+
+In a separate terminal, start the watcher and build process for JavaScript and CSS assets. Using `pnpm`:
+
 ```bash
 pnpm serve
-```  
-Alternatively, if you're using `npm`:  
+```
+
+Alternatively, if you're using `npm`:
+
 ```bash
 npm run serve
-```  
+```
 
 ## Functionality
 
@@ -46,7 +55,7 @@ The website contains two pages:
 - [Product list](https://scandiweb-test.infinityfreeapp.com/)
 - [Add product](https://scandiweb-test.infinityfreeapp.com/add-product)
 
-*1\. Product list page*
+_1\. Product list page_
 
 This page is responsible for:
 
@@ -54,7 +63,7 @@ This page is responsible for:
 - Deleting products
 - Links to the [Add product page](https://scandiweb-test.infinityfreeapp.com/add-product)
 
-*2\. Add product page*
+_2\. Add product page_
 
 This page is responsible for:
 
@@ -69,7 +78,7 @@ Firstly the application starts at the <SwmPath>[public/index.php](/public/index.
 
 When the user hits an endpoint the <SwmToken path="/app/router/Router.php" pos="126:5:5" line-data="    public function watch()">`watch`</SwmToken> method extracts the uri and the method out of the request then it searches for a matching uri and method inside the <SwmToken path="/app/router/Router.php" pos="22:6:6" line-data="    private array $routes = [];">`routes`</SwmToken> associative array, if it was found it executes the action assigned to the route, if not found it loads 404 page using <SwmToken path="/app/router/Router.php" pos="152:7:7" line-data="    public static function abort(int $statusCode = Http::NOT_FOUND): void">`abort`</SwmToken> method.
 
-The actions are attached to a controller or a class in general, the <SwmToken path="/app/controllers/Controller.php" pos="7:4:4" line-data="abstract class Controller">`Controller`</SwmToken> class is resourceful and includes methods with resourceful names such as: <SwmToken path="/app/controllers/Controller.php" pos="12:7:7" line-data="    public static function index()">`index`</SwmToken>, <SwmToken path="/app/controllers/Controller.php" pos="26:7:7" line-data="    public static function store()">`store`</SwmToken> and so on. In addition to that it includes <SwmToken path="/app/controllers/Controller.php" pos="44:7:7" line-data="    public static function view(string $view, $data = [])">`view`</SwmToken> method that returns the corresponding view from the <SwmPath>[views/](/views/)</SwmPath> folder and passes any additional data  to the view if any.
+The actions are attached to a controller or a class in general, the <SwmToken path="/app/controllers/Controller.php" pos="7:4:4" line-data="abstract class Controller">`Controller`</SwmToken> class is resourceful and includes methods with resourceful names such as: <SwmToken path="/app/controllers/Controller.php" pos="12:7:7" line-data="    public static function index()">`index`</SwmToken>, <SwmToken path="/app/controllers/Controller.php" pos="26:7:7" line-data="    public static function store()">`store`</SwmToken> and so on. In addition to that it includes <SwmToken path="/app/controllers/Controller.php" pos="44:7:7" line-data="    public static function view(string $view, $data = [])">`view`</SwmToken> method that returns the corresponding view from the <SwmPath>[views/](/views/)</SwmPath> folder and passes any additional data to the view if any.
 
 The [Product list page](https://scandiweb-test.infinityfreeapp.com/) triggers the <SwmToken path="/app/controllers/ProductController.php" pos="26:7:7" line-data="    public static function index()">`index`</SwmToken> method on the <SwmToken path="/app/controllers/ProductController.php" pos="15:2:2" line-data="class ProductController extends Controller">`ProductController`</SwmToken> this method basically queries all the products using the <SwmToken path="/app/models/Product.php" pos="11:2:2" line-data="class Product extends Model">`Product`</SwmToken> model, filters out the null enteries, passes some config to the view, passes out errors as flash messages using <SwmToken path="/app/sessions/Flash.php" pos="29:7:7" line-data="    public static function get(string $key, mixed $default = null): mixed">`get`</SwmToken> method on the <SwmToken path="/app/sessions/Flash.php" pos="8:5:5" line-data=" * Class Flash">`Flash`</SwmToken> class if any and finally renders the page.
 

@@ -7,9 +7,8 @@ namespace App\Enums;
  *
  * This enum defines the possible types of products, such as DVD, BOOK, and FURNITURE.
  */
-enum ProductType: string
-{
-    case DVD = "DVD";
-    case BOOK = "BOOK";
-    case FURNITURE = "FURNITURE";
+enum ProductType: string {
+  case DVD       = "DVD";
+  case BOOK      = "BOOK";
+  case FURNITURE = "FURNITURE";
 }

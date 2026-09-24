@@ -8,13 +8,9 @@ use Lib\Helpers;
     <?php
     $config = $productConfigs[$product['type']];
     ?>
-    <label
-      class="card border p-4 flex flex-col gap-3 bg-gray-800 items-center cursor-pointer relative">
+    <label class="card border p-4 flex flex-col gap-3 bg-gray-800 items-center cursor-pointer relative">
 
-      <input
-        type="checkbox"
-        name="check"
-        @click="toggleSelect(<?= $product['id'] ?>)"
+      <input type="checkbox" name="check" @click="toggleSelect(<?= $product['id'] ?>)"
         class="delete-checkbox self-start ml-4 mt-4 rounded cursor-pointer absolute left-0 top-0" />
 
       <p>

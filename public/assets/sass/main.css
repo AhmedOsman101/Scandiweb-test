@@ -45,7 +45,7 @@ label:not(.card) {
   grid-template-columns: 4rem 1fr;
   align-items: center;
   -moz-column-gap: 2rem;
-       column-gap: 2rem;
+  column-gap: 2rem;
   position: relative;
 }
 label:not(.card) > span {
@@ -78,8 +78,8 @@ input[type=number]::-webkit-inner-spin-button {
 /* Hide spinners in Firefox */
 input[type=number] {
   -webkit-appearance: textfield !important;
-     -moz-appearance: textfield !important;
-          appearance: textfield !important;
+  -moz-appearance: textfield !important;
+  appearance: textfield !important;
 }
 
 @media (max-width: 600px) {
